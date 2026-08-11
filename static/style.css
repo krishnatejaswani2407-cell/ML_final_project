@@ -1,0 +1,317 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+header{
+    background:#1e3d63;
+    color:white;
+    padding:20px;
+}
+
+header h1{
+    font-size:32px;
+}
+
+.container{
+    display:flex;
+}
+
+.sidebar{
+
+    width:230px;
+    min-height:100vh;
+    background:#294f78;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+}
+
+.sidebar li{
+
+    color:white;
+    padding:20px;
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+}
+
+.sidebar li.active{
+
+    background:#4c79aa;
+    font-weight:bold;
+
+}
+
+.content{
+
+    flex:1;
+    background:white;
+    padding:30px;
+
+}
+
+.summary{
+
+    border-collapse:collapse;
+    width:400px;
+    margin-top:20px;
+    margin-bottom:30px;
+
+}
+
+.summary td{
+
+    border:1px solid #ccc;
+    padding:10px;
+
+}
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    margin-bottom:40px;
+
+}
+
+table th{
+
+    background:#dde7f2;
+
+}
+
+table th,
+table td{
+
+    border:1px solid #cccccc;
+    padding:10px;
+    text-align:left;
+
+}
+
+.preview-table{
+
+    display:block;
+    overflow-x:auto;
+
+}
+
+/* =====================================================
+   EDA Dashboard
+===================================================== */
+
+
+.sidebar a {
+
+    color: white;
+
+    text-decoration: none;
+
+    display: block;
+
+}
+
+
+.sidebar span {
+
+    font-size: 14px;
+
+    opacity: 0.8;
+
+}
+
+
+/* EDA description */
+
+.eda-description {
+
+    color: #555;
+
+    font-size: 16px;
+
+    margin-bottom: 25px;
+
+    line-height: 1.6;
+
+}
+
+
+/* Summary cards */
+
+.cards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 35px;
+
+}
+
+
+.card {
+
+    background: #f7f9fc;
+
+    border: 1px solid #d8dee8;
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    text-align: center;
+
+}
+
+
+.card h3 {
+
+    font-size: 15px;
+
+    color: #555;
+
+    margin-bottom: 12px;
+
+}
+
+
+.card p {
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+    color: #1e3d63;
+
+}
+
+
+/* Section headings */
+
+.section-title {
+
+    margin-top: 35px;
+
+    margin-bottom: 20px;
+
+    color: #1e3d63;
+
+    border-left: 5px solid #4c79aa;
+
+    padding-left: 12px;
+
+}
+
+
+/* Chart grid */
+
+.chart-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 25px;
+
+    margin-bottom: 30px;
+
+}
+
+
+/* Chart card */
+
+.chart-card {
+
+    background: white;
+
+    border: 1px solid #d8dee8;
+
+    border-radius: 8px;
+
+    padding: 15px;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.08);
+
+}
+
+
+.chart-card h3 {
+
+    text-align: center;
+
+    color: #333;
+
+    margin-bottom: 10px;
+
+}
+
+
+.chart-card img {
+
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+}
+
+
+/* Heatmap */
+
+.heatmap-card {
+
+    width: 95%;
+
+    margin-bottom: 50px;
+
+}
+
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+
+    .cards {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .chart-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .cards {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>SkillMatch</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>SkillMatch</h1>
+
+</header>
+
+<div class="container">
+
+    <aside class="sidebar">
+
+    <ul>
+
+        <li class="active">
+            <a href="/">Data Loading</a>
+        </li>
+
+        <li>
+            <a href="/eda">EDA</a>
+        </li>
+
+        <li>
+            <span>Preprocessing</span>
+            <br>
+            <small>(Coming Soon)</small>
+        </li>
+
+        <li>
+            <span>Model Training</span>
+            <br>
+            <small>(Coming Soon)</small>
+        </li>
+
+        <li>
+            <span>Prediction</span>
+            <br>
+            <small>(Coming Soon)</small>
+        </li>
+
+    </ul>
+
+</aside>
+
+    <main class="content">
+
+        <h2>Data Loading</h2>
+
+        <table class="summary">
+
+            <tr>
+                <td>Dataset</td>
+                <td>{{ data.dataset_name }}</td>
+            </tr>
+
+            <tr>
+                <td>Rows</td>
+                <td>{{ data.rows }}</td>
+            </tr>
+
+            <tr>
+                <td>Columns</td>
+                <td>{{ data.columns }}</td>
+            </tr>
+
+        </table>
+
+        <h3>Column Information</h3>
+
+        <table>
+
+            <tr>
+
+                <th>Column</th>
+                <th>Datatype</th>
+                <th>Missing Values</th>
+
+            </tr>
+
+            {% for col in data.column_info %}
+
+            <tr>
+
+                <td>{{ col.name }}</td>
+                <td>{{ col.dtype }}</td>
+                <td>{{ col.missing }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <h3>Preview (First 10 Rows)</h3>
+
+        {{ data.preview|safe }}
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

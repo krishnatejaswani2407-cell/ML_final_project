@@ -1,0 +1,576 @@
+import os
+import pandas as pd
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+# ---------------------------------------------------------
+# Dataset path
+# ---------------------------------------------------------
+
+DATASET_PATH = "WA_Fn-UseC_-HR-Employee-Attrition.csv"
+
+CHART_FOLDER = "static/charts"
+
+
+# ---------------------------------------------------------
+# Load dataset
+# ---------------------------------------------------------
+
+def load_dataset():
+
+    return pd.read_csv(DATASET_PATH)
+
+
+# ---------------------------------------------------------
+# Create chart folder
+# ---------------------------------------------------------
+
+def create_chart_folder():
+
+    os.makedirs(CHART_FOLDER, exist_ok=True)
+
+
+# ---------------------------------------------------------
+# Save chart
+# ---------------------------------------------------------
+
+def save_chart(filename):
+
+    path = os.path.join(CHART_FOLDER, filename)
+
+    plt.tight_layout()
+
+    plt.savefig(
+        path,
+        dpi=120,
+        bbox_inches="tight"
+    )
+
+    plt.close()
+
+
+# =========================================================
+# 1. Attrition Distribution
+# =========================================================
+
+def attrition_distribution(df):
+
+    counts = df["Attrition"].value_counts()
+
+    plt.figure(figsize=(6, 5))
+
+    plt.pie(
+        counts.values,
+        labels=counts.index,
+        autopct="%1.1f%%",
+        startangle=90
+    )
+
+    plt.title("Attrition Distribution")
+
+    save_chart("attrition_distribution.png")
+
+
+# =========================================================
+# 2. Attrition by Gender
+# =========================================================
+
+def attrition_gender(df):
+
+    table = pd.crosstab(
+        df["Gender"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(columns=["Yes", "No"], fill_value=0)
+
+    ax = table.plot(
+        kind="bar",
+        figsize=(7, 5)
+    )
+
+    plt.title("Attrition by Gender")
+
+    plt.xlabel("Gender")
+
+    plt.ylabel("Attrition Percentage (%)")
+
+    plt.xticks(rotation=0)
+
+    plt.legend(title="Attrition")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("attrition_gender.png")
+
+
+# =========================================================
+# 3. Age Distribution
+# =========================================================
+
+def age_distribution(df):
+
+    plt.figure(figsize=(8, 5))
+
+    sns.histplot(
+        data=df,
+        x="Age",
+        bins=15,
+        kde=True
+    )
+
+    plt.title("Age Distribution")
+
+    plt.xlabel("Age")
+
+    plt.ylabel("Number of Employees")
+
+    save_chart("age_distribution.png")
+
+
+# =========================================================
+# 4. Age Group vs Attrition
+# =========================================================
+
+def age_group_attrition(df):
+
+    df = df.copy()
+
+    bins = [18, 25, 30, 35, 40, 45, 100]
+
+    labels = [
+        "18-25",
+        "26-30",
+        "31-35",
+        "36-40",
+        "41-45",
+        "46+"
+    ]
+
+    df["AgeGroup"] = pd.cut(
+        df["Age"],
+        bins=bins,
+        labels=labels,
+        include_lowest=True
+    )
+
+    table = pd.crosstab(
+        df["AgeGroup"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(
+        columns=["Yes", "No"],
+        fill_value=0
+    )
+
+    ax = table.plot(
+        kind="bar",
+        figsize=(8, 5)
+    )
+
+    plt.title("Age Group vs Attrition")
+
+    plt.xlabel("Age Group")
+
+    plt.ylabel("Percentage (%)")
+
+    plt.xticks(rotation=0)
+
+    plt.legend(title="Attrition")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("age_group_attrition.png")
+
+
+# =========================================================
+# 5. Job Role vs Attrition
+# =========================================================
+
+def job_role_attrition(df):
+
+    table = pd.crosstab(
+        df["JobRole"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(
+        columns=["Yes", "No"],
+        fill_value=0
+    )
+
+    table = table.sort_values(
+        "Yes",
+        ascending=True
+    )
+
+    ax = table["Yes"].plot(
+        kind="barh",
+        figsize=(9, 6)
+    )
+
+    plt.title("Attrition Rate by Job Role")
+
+    plt.xlabel("Employees Who Left (%)")
+
+    plt.ylabel("Job Role")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("job_role_attrition.png")
+
+
+# =========================================================
+# 6. Department vs Attrition
+# =========================================================
+
+def department_attrition(df):
+
+    table = pd.crosstab(
+        df["Department"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(
+        columns=["Yes", "No"],
+        fill_value=0
+    )
+
+    ax = table.plot(
+        kind="bar",
+        figsize=(7, 5)
+    )
+
+    plt.title("Attrition by Department")
+
+    plt.xlabel("Department")
+
+    plt.ylabel("Percentage (%)")
+
+    plt.xticks(rotation=15)
+
+    plt.legend(title="Attrition")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("department_attrition.png")
+
+
+# =========================================================
+# 7. Job Satisfaction vs Attrition
+# =========================================================
+
+def job_satisfaction_attrition(df):
+
+    table = pd.crosstab(
+        df["JobSatisfaction"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(
+        columns=["Yes", "No"],
+        fill_value=0
+    )
+
+    ax = table.plot(
+        kind="bar",
+        figsize=(7, 5)
+    )
+
+    plt.title("Job Satisfaction vs Attrition")
+
+    plt.xlabel("Job Satisfaction Level")
+
+    plt.ylabel("Percentage (%)")
+
+    plt.xticks(rotation=0)
+
+    plt.legend(title="Attrition")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("job_satisfaction_attrition.png")
+
+
+# =========================================================
+# 8. Work-Life Balance vs Attrition
+# =========================================================
+
+def worklife_attrition(df):
+
+    table = pd.crosstab(
+        df["WorkLifeBalance"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(
+        columns=["Yes", "No"],
+        fill_value=0
+    )
+
+    ax = table.plot(
+        kind="bar",
+        figsize=(7, 5)
+    )
+
+    plt.title("Work-Life Balance vs Attrition")
+
+    plt.xlabel("Work-Life Balance Level")
+
+    plt.ylabel("Percentage (%)")
+
+    plt.xticks(rotation=0)
+
+    plt.legend(title="Attrition")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("worklife_attrition.png")
+
+
+# =========================================================
+# 9. Overtime vs Attrition
+# =========================================================
+
+def overtime_attrition(df):
+
+    table = pd.crosstab(
+        df["OverTime"],
+        df["Attrition"],
+        normalize="index"
+    ) * 100
+
+    table = table.reindex(
+        columns=["Yes", "No"],
+        fill_value=0
+    )
+
+    ax = table.plot(
+        kind="bar",
+        figsize=(7, 5)
+    )
+
+    plt.title("Overtime vs Attrition")
+
+    plt.xlabel("Overtime")
+
+    plt.ylabel("Percentage (%)")
+
+    plt.xticks(rotation=0)
+
+    plt.legend(title="Attrition")
+
+    for container in ax.containers:
+
+        ax.bar_label(
+            container,
+            fmt="%.1f%%"
+        )
+
+    save_chart("overtime_attrition.png")
+
+
+# =========================================================
+# 10. Monthly Income vs Attrition
+# =========================================================
+
+def income_attrition(df):
+
+    plt.figure(figsize=(7, 5))
+
+    sns.boxplot(
+        data=df,
+        x="Attrition",
+        y="MonthlyIncome"
+    )
+
+    plt.title("Monthly Income vs Attrition")
+
+    plt.xlabel("Attrition")
+
+    plt.ylabel("Monthly Income")
+
+    save_chart("income_attrition.png")
+
+
+# =========================================================
+# 11. Years at Company vs Attrition
+# =========================================================
+
+def years_company_attrition(df):
+
+    plt.figure(figsize=(7, 5))
+
+    sns.boxplot(
+        data=df,
+        x="Attrition",
+        y="YearsAtCompany"
+    )
+
+    plt.title("Years at Company vs Attrition")
+
+    plt.xlabel("Attrition")
+
+    plt.ylabel("Years at Company")
+
+    save_chart("years_company_attrition.png")
+
+
+# =========================================================
+# 12. Correlation Heatmap
+# =========================================================
+
+def correlation_heatmap(df):
+
+    correlation_columns = [
+        "Age",
+        "DistanceFromHome",
+        "JobInvolvement",
+        "JobLevel",
+        "JobSatisfaction",
+        "MonthlyIncome",
+        "NumCompaniesWorked",
+        "OverTime",
+        "PercentSalaryHike",
+        "PerformanceRating",
+        "RelationshipSatisfaction",
+        "TotalWorkingYears",
+        "WorkLifeBalance",
+        "YearsAtCompany",
+        "YearsInCurrentRole",
+        "YearsSinceLastPromotion",
+        "YearsWithCurrManager"
+    ]
+
+    temp = df[correlation_columns].copy()
+
+    temp["OverTime"] = temp["OverTime"].map({
+        "Yes": 1,
+        "No": 0
+    })
+
+    correlation = temp.corr()
+
+    plt.figure(figsize=(12, 9))
+
+    sns.heatmap(
+        correlation,
+        annot=True,
+        fmt=".2f",
+        cmap="coolwarm",
+        linewidths=0.5
+    )
+
+    plt.title("Correlation Heatmap")
+
+    save_chart("correlation_heatmap.png")
+
+
+# =========================================================
+# Generate all charts
+# =========================================================
+
+def generate_all_charts():
+
+    create_chart_folder()
+
+    df = load_dataset()
+
+    attrition_distribution(df)
+
+    attrition_gender(df)
+
+    age_distribution(df)
+
+    age_group_attrition(df)
+
+    job_role_attrition(df)
+
+    department_attrition(df)
+
+    job_satisfaction_attrition(df)
+
+    worklife_attrition(df)
+
+    overtime_attrition(df)
+
+    income_attrition(df)
+
+    years_company_attrition(df)
+
+    correlation_heatmap(df)
+
+
+# =========================================================
+# EDA Summary
+# =========================================================
+
+def get_eda_summary():
+
+    df = load_dataset()
+
+    total_employees = len(df)
+
+    employees_left = (
+        df["Attrition"]
+        .value_counts()
+        .get("Yes", 0)
+    )
+
+    attrition_rate = (
+        employees_left / total_employees
+    ) * 100
+
+    average_age = df["Age"].mean()
+
+    average_income = df["MonthlyIncome"].mean()
+
+    return {
+        "total_employees": total_employees,
+        "employees_left": employees_left,
+        "attrition_rate": round(attrition_rate, 2),
+        "average_age": round(average_age, 2),
+        "average_income": round(average_income, 2)
+    }
