@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkillMatch - Tree Based Algorithms</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header>
+
+    <h1>SkillMatch</h1>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <ul>
+
+
+            <li>
+
+                <a href="/">
+                    Data Loading
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/eda">
+                    EDA
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/preprocessing">
+                    Preprocessing
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/linear-regression">
+                    Linear Regression
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/logistic-regression">
+                    Logistic Regression
+                </a>
+
+            </li>
+
+
+            <li class="active">
+
+                <a href="/tree-based">
+                    Tree Based Algorithms
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <span>
+                    Model Training
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+            <li>
+
+                <span>
+                    Prediction
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="content">
+
+
+        <h2>
+            Tree Based Algorithms
+        </h2>
+
+
+        <p class="page-description">
+
+            Tree based classification algorithms are used
+            to predict employee Attrition using the
+            preprocessed dataset.
+
+        </p>
+
+
+        <!-- =================================================
+             ALGORITHM SELECTION
+        ================================================== -->
+
+        <div class="regression-box">
+
+
+            <h3>
+                Select Tree Based Algorithm
+            </h3>
+
+
+            <div class="regression-controls">
+
+
+                <label for="treeAlgorithm">
+
+                    Algorithm:
+
+                </label>
+
+
+                <select id="treeAlgorithm">
+
+
+                    <option value="decision_tree">
+
+                        Decision Tree
+
+                    </option>
+
+
+                    <option value="random_forest">
+
+                        Random Forest
+
+                    </option>
+
+
+                    <option value="extra_trees">
+
+                        Extra Trees
+
+                    </option>
+
+
+                    <option value="gradient_boosting">
+
+                        Gradient Boosting
+
+                    </option>
+
+
+                    <option value="adaboost">
+
+                        AdaBoost
+
+                    </option>
+
+
+                    <option value="xgboost">
+
+                        Extreme Gradient Boosting (XGBoost)
+
+                    </option>
+
+
+                    <option value="lightgbm">
+
+                        LightGBM
+
+                    </option>
+
+
+                </select>
+
+
+                <button onclick="runTreeAlgorithm()">
+
+                    Run Algorithm
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             RESULTS
+        ================================================== -->
+
+        <div id="treeResults"
+             class="regression-box"
+             style="display:none;">
+
+
+            <h3>
+                Model Results
+            </h3>
+
+
+            <table class="result-table">
+
+
+                <tr>
+
+                    <th>
+                        Algorithm
+                    </th>
+
+                    <td id="algorithmResult"></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Target
+                    </th>
+
+                    <td id="targetResult"></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Accuracy
+                    </th>
+
+                    <td id="accuracyResult"></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Precision
+                    </th>
+
+                    <td id="precisionResult"></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Recall
+                    </th>
+
+                    <td id="recallResult"></td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        F1 Score
+                    </th>
+
+                    <td id="f1Result"></td>
+
+                </tr>
+
+
+            </table>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+function runTreeAlgorithm() {
+
+
+    const algorithm =
+        document.getElementById(
+            "treeAlgorithm"
+        ).value;
+
+
+    fetch(
+        "/run-tree-algorithm?algorithm=" + algorithm
+    )
+
+
+    .then(function(response) {
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error"
+            );
+
+        }
+
+
+        return response.json();
+
+
+    })
+
+
+    .then(function(data) {
+
+
+        if (data.error) {
+
+            alert(
+                "Error: " + data.error
+            );
+
+            return;
+
+        }
+
+
+        document.getElementById(
+            "treeResults"
+        ).style.display = "block";
+
+
+        document.getElementById(
+            "algorithmResult"
+        ).innerText = data.algorithm;
+
+
+        document.getElementById(
+            "targetResult"
+        ).innerText = data.target;
+
+
+        document.getElementById(
+            "accuracyResult"
+        ).innerText = data.accuracy;
+
+
+        document.getElementById(
+            "precisionResult"
+        ).innerText = data.precision;
+
+
+        document.getElementById(
+            "recallResult"
+        ).innerText = data.recall;
+
+
+        document.getElementById(
+            "f1Result"
+        ).innerText = data.f1;
+
+
+    })
+
+
+    .catch(function(error) {
+
+
+        console.error(error);
+
+
+        alert(
+            "Unable to run Tree Based Algorithm. " +
+            "Check the Flask terminal."
+        );
+
+
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
