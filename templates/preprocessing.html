@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkillMatch - Preprocessing</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>SkillMatch</h1>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <ul>
+
+            <li>
+                <a href="/">
+                    Data Loading
+                </a>
+            </li>
+
+
+            <li>
+                <a href="/eda">
+                    EDA
+                </a>
+            </li>
+
+
+            <li class="active">
+                <a href="/preprocessing">
+                    Preprocessing
+                </a>
+            </li>
+
+
+            <li>
+                <a href="/linear-regression">
+                    Linear Regression
+                </a>
+            </li>
+
+
+            <li>
+                <a href="/logistic-regression">
+                    Logistic Regression
+                </a>
+            </li>
+
+
+            <li>
+                <a href="/tree-based">
+                    Tree Based Algorithms
+                </a>
+            </li>
+
+
+            <li>
+
+                <span>
+                    Model Training
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+            <li>
+
+                <span>
+                    Prediction
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+        </ul>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="content">
+
+
+        <h2>
+            Data Preprocessing
+        </h2>
+
+
+        <p class="description">
+
+            Data preprocessing prepares the employee
+            dataset for machine learning by cleaning
+            the data, handling outliers, creating useful
+            features, encoding the target variable and
+            preparing the data for model training.
+
+        </p>
+
+
+        <!-- =================================================
+             1. DATA CLEANING
+        ================================================== -->
+
+        <h2 class="section-title">
+            1. Data Cleaning
+        </h2>
+
+
+        <div class="preprocess-card">
+
+            <h3>
+                Dataset Quality Check
+            </h3>
+
+
+            <table class="info-table">
+
+                <tr>
+                    <th>Check</th>
+                    <th>Result</th>
+                </tr>
+
+                <tr>
+                    <td>Total Rows</td>
+                    <td>{{ summary.rows }}</td>
+                </tr>
+
+                <tr>
+                    <td>Total Columns</td>
+                    <td>{{ summary.columns }}</td>
+                </tr>
+
+                <tr>
+                    <td>Missing Values</td>
+                    <td>{{ summary.missing }}</td>
+                </tr>
+
+                <tr>
+                    <td>Duplicate Rows</td>
+                    <td>{{ summary.duplicates }}</td>
+                </tr>
+
+            </table>
+
+
+            <h3>
+                Removed Unnecessary Columns
+            </h3>
+
+
+            <p>
+
+                The following columns are removed because
+                they do not provide useful information for
+                machine learning:
+
+            </p>
+
+
+            <ul>
+
+                <li>EmployeeCount</li>
+                <li>Over18</li>
+                <li>StandardHours</li>
+                <li>EmployeeNumber</li>
+
+            </ul>
+
+
+        </div>
+
+
+        <!-- =================================================
+             2. OUTLIERS
+        ================================================== -->
+
+        <h2 class="section-title">
+            2. Outlier Detection and Handling
+        </h2>
+
+
+        <div class="preprocess-card">
+
+            <h3>
+                Monthly Income - IQR Method
+            </h3>
+
+
+            <table class="info-table">
+
+                <tr>
+                    <th>Measure</th>
+                    <th>Value</th>
+                </tr>
+
+                <tr>
+                    <td>Feature</td>
+                    <td>MonthlyIncome</td>
+                </tr>
+
+                <tr>
+                    <td>Q1</td>
+                    <td>{{ outlier.Q1 }}</td>
+                </tr>
+
+                <tr>
+                    <td>Q3</td>
+                    <td>{{ outlier.Q3 }}</td>
+                </tr>
+
+                <tr>
+                    <td>IQR</td>
+                    <td>{{ outlier.IQR }}</td>
+                </tr>
+
+                <tr>
+                    <td>Lower Fence</td>
+                    <td>{{ outlier.lower_fence }}</td>
+                </tr>
+
+                <tr>
+                    <td>Upper Fence</td>
+                    <td>{{ outlier.upper_fence }}</td>
+                </tr>
+
+                <tr>
+                    <td>Potential Outliers</td>
+                    <td>{{ outlier.outlier_count }}</td>
+                </tr>
+
+                <tr>
+                    <td>Original Minimum</td>
+                    <td>{{ outlier.original_min }}</td>
+                </tr>
+
+                <tr>
+                    <td>Original Maximum</td>
+                    <td>{{ outlier.original_max }}</td>
+                </tr>
+
+                <tr>
+                    <td>Minimum After Clipping</td>
+                    <td>{{ outlier.clipped_min }}</td>
+                </tr>
+
+                <tr>
+                    <td>Maximum After Clipping</td>
+                    <td>{{ outlier.clipped_max }}</td>
+                </tr>
+
+            </table>
+
+
+            <div class="formula-box">
+
+                <strong>IQR Formula</strong>
+
+                <br><br>
+
+                IQR = Q3 − Q1
+
+                <br>
+
+                Lower Fence = Q1 − 1.5 × IQR
+
+                <br>
+
+                Upper Fence = Q3 + 1.5 × IQR
+
+            </div>
+
+
+            <p>
+
+                MonthlyIncome values above the upper fence
+                are handled using clipping instead of
+                deleting employee records.
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             3. FEATURE ENGINEERING
+        ================================================== -->
+
+        <h2 class="section-title">
+            3. Feature Engineering
+        </h2>
+
+
+        <div class="preprocess-card">
+
+            <h3>
+                Creating New Features
+            </h3>
+
+
+            <p>
+
+                New features are created from existing
+                employee attributes to help the machine
+                learning models identify useful patterns.
+
+            </p>
+
+
+            <table class="info-table">
+
+                <tr>
+
+                    <th>
+                        New Feature
+                    </th>
+
+                    <th>
+                        Created From
+                    </th>
+
+                    <th>
+                        Purpose
+                    </th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        AgeGroup
+                    </td>
+
+                    <td>
+                        Age
+                    </td>
+
+                    <td>
+                        Groups employees according to age.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        ExperienceGroup
+                    </td>
+
+                    <td>
+                        TotalWorkingYears
+                    </td>
+
+                    <td>
+                        Groups employees based on total work experience.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        TenureGroup
+                    </td>
+
+                    <td>
+                        YearsAtCompany
+                    </td>
+
+                    <td>
+                        Represents employee tenure in the company.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        OverallSatisfaction
+                    </td>
+
+                    <td>
+
+                        JobSatisfaction +
+                        EnvironmentSatisfaction +
+                        RelationshipSatisfaction +
+                        WorkLifeBalance
+
+                    </td>
+
+                    <td>
+                        Represents overall satisfaction.
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             4. TARGET ENCODING
+        ================================================== -->
+
+        <h2 class="section-title">
+            4. Target Encoding
+        </h2>
+
+
+        <div class="preprocess-card">
+
+            <h3>
+                Attrition Encoding
+            </h3>
+
+
+            <p>
+
+                The target variable Attrition is converted
+                from categorical values into numerical values.
+
+            </p>
+
+
+            <table class="info-table">
+
+                <tr>
+
+                    <th>
+                        Original Value
+                    </th>
+
+                    <th>
+                        Encoded Value
+                    </th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        No
+                    </td>
+
+                    <td>
+                        0
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Yes
+                    </td>
+
+                    <td>
+                        1
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+
+        <!-- =================================================
+             5. FEATURE SCALING
+        ================================================== -->
+
+        <h2 class="section-title">
+            5. Feature Scaling
+        </h2>
+
+
+        <div class="preprocess-card">
+
+            <h3>
+                Standard Scaling
+            </h3>
+
+
+            <p>
+
+                StandardScaler is used before Linear Regression
+                and Logistic Regression so that numerical
+                features are placed on a comparable scale.
+
+            </p>
+
+
+            <div class="formula-box">
+
+                Z = (X − Mean) / Standard Deviation
+
+            </div>
+
+
+            <table class="info-table">
+
+                <tr>
+
+                    <th>
+                        Model
+                    </th>
+
+                    <th>
+                        Scaling
+                    </th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Linear Regression
+                    </td>
+
+                    <td>
+                        Standard Scaling
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Logistic Regression
+                    </td>
+
+                    <td>
+                        Standard Scaling
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Tree Based Algorithms
+                    </td>
+
+                    <td>
+                        Scaling Not Required
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+        </div>
+
+
+        <!-- =================================================
+             6. TRAIN TEST SPLIT
+        ================================================== -->
+
+        <h2 class="section-title">
+            6. Train-Test Split
+        </h2>
+
+
+        <div class="preprocess-card">
+
+            <h3>
+                70% Training and 30% Testing
+            </h3>
+
+
+            <table class="info-table">
+
+                <tr>
+
+                    <th>
+                        Dataset
+                    </th>
+
+                    <th>
+                        Rows
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Training Data
+                    </td>
+
+                    <td>
+                        {{ summary.train_rows }}
+                    </td>
+
+                    <td>
+                        {{ summary.train_percentage }}%
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        Testing Data
+                    </td>
+
+                    <td>
+                        {{ summary.test_rows }}
+                    </td>
+
+                    <td>
+                        {{ summary.test_percentage }}%
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+            <p>
+
+                The dataset is divided into 70% training
+                data and 30% testing data before model
+                training. Classification models use
+                stratified sampling based on Attrition.
+
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             FINAL SUMMARY
+        ================================================== -->
+
+        <div class="final-note">
+
+            <h3>
+                Preprocessing Summary
+            </h3>
+
+
+            <p>
+
+                The SkillMatch dataset is cleaned by removing
+                unnecessary columns and missing values.
+                MonthlyIncome outliers are handled using IQR
+                clipping. New employee features are created,
+                Attrition is encoded as 0 and 1, and the data
+                is prepared for model training and testing.
+
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,7 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>SkillMatch</title>
 
@@ -10,7 +15,13 @@
 
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
 
 <header>
 
@@ -18,98 +29,272 @@
 
 </header>
 
+
+<!-- =====================================================
+     MAIN CONTAINER
+====================================================== -->
+
 <div class="container">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
 
     <aside class="sidebar">
 
-    <ul>
+        <ul>
 
-        <li class="active">
-            <a href="/">Data Loading</a>
-        </li>
 
-        <li>
-            <a href="/eda">EDA</a>
-        </li>
+            <!-- DATA LOADING -->
 
-        <li>
-            <span>Preprocessing</span>
-            <br>
-            <small>(Coming Soon)</small>
-        </li>
+            <li class="active">
 
-        <li>
-            <span>Model Training</span>
-            <br>
-            <small>(Coming Soon)</small>
-        </li>
+                <a href="/">
+                    Data Loading
+                </a>
 
-        <li>
-            <span>Prediction</span>
-            <br>
-            <small>(Coming Soon)</small>
-        </li>
+            </li>
 
-    </ul>
 
-</aside>
+            <!-- EDA -->
+
+            <li>
+
+                <a href="/eda">
+                    EDA
+                </a>
+
+            </li>
+
+
+            <!-- PREPROCESSING -->
+
+            <li>
+
+                <a href="/preprocessing">
+                    Preprocessing
+                </a>
+
+            </li>
+
+
+            <!-- LINEAR REGRESSION -->
+
+            <li>
+
+                <a href="/linear-regression">
+                    Linear Regression
+                </a>
+
+            </li>
+
+
+            <!-- LOGISTIC REGRESSION -->
+
+            <li>
+
+                <a href="/logistic-regression">
+                    Logistic Regression
+                </a>
+
+            </li>
+
+
+            <!-- TREE BASED ALGORITHMS -->
+
+            <li>
+
+                <a href="/tree-based">
+                    Tree Based Algorithms
+                </a>
+
+            </li>
+
+
+            <!-- MODEL TRAINING -->
+
+            <li>
+
+                <span>
+                    Model Training
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+            <!-- PREDICTION -->
+
+            <li>
+
+                <span>
+                    Prediction
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================== -->
 
     <main class="content">
 
-        <h2>Data Loading</h2>
+
+        <!-- PAGE TITLE -->
+
+        <h2>
+            Data Loading
+        </h2>
+
+
+        <!-- DATASET SUMMARY -->
 
         <table class="summary">
 
-            <tr>
-                <td>Dataset</td>
-                <td>{{ data.dataset_name }}</td>
-            </tr>
 
             <tr>
-                <td>Rows</td>
-                <td>{{ data.rows }}</td>
+
+                <td>
+                    Dataset
+                </td>
+
+                <td>
+                    {{ data.dataset_name }}
+                </td>
+
             </tr>
 
+
             <tr>
-                <td>Columns</td>
-                <td>{{ data.columns }}</td>
+
+                <td>
+                    Rows
+                </td>
+
+                <td>
+                    {{ data.rows }}
+                </td>
+
             </tr>
+
+
+            <tr>
+
+                <td>
+                    Columns
+                </td>
+
+                <td>
+                    {{ data.columns }}
+                </td>
+
+            </tr>
+
 
         </table>
 
-        <h3>Column Information</h3>
+
+        <!-- =================================================
+             COLUMN INFORMATION
+        ================================================== -->
+
+        <h3>
+            Column Information
+        </h3>
+
 
         <table>
 
+
             <tr>
 
-                <th>Column</th>
-                <th>Datatype</th>
-                <th>Missing Values</th>
+                <th>
+                    Column
+                </th>
+
+                <th>
+                    Datatype
+                </th>
+
+                <th>
+                    Missing Values
+                </th>
 
             </tr>
+
 
             {% for col in data.column_info %}
 
+
             <tr>
 
-                <td>{{ col.name }}</td>
-                <td>{{ col.dtype }}</td>
-                <td>{{ col.missing }}</td>
+                <td>
+                    {{ col.name }}
+                </td>
+
+                <td>
+                    {{ col.dtype }}
+                </td>
+
+                <td>
+                    {{ col.missing }}
+                </td>
 
             </tr>
 
+
             {% endfor %}
+
 
         </table>
 
-        <h3>Preview (First 10 Rows)</h3>
 
-        {{ data.preview|safe }}
+        <!-- =================================================
+             DATA PREVIEW
+        ================================================== -->
+
+        <h3>
+            Preview (First 10 Rows)
+        </h3>
+
+
+        <!--
+            IMPORTANT:
+            The generated pandas HTML table is placed
+            inside this wrapper so that it can scroll
+            horizontally instead of squeezing 35 columns.
+        -->
+
+        <div class="preview-table">
+
+            {{ data.preview|safe }}
+
+        </div>
+
 
     </main>
 
+
 </div>
+
 
 </body>
 

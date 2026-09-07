@@ -8,36 +8,22 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-# ---------------------------------------------------------
-# Dataset path
-# ---------------------------------------------------------
-
 DATASET_PATH = "WA_Fn-UseC_-HR-Employee-Attrition.csv"
 
 CHART_FOLDER = "static/charts"
 
 
-# ---------------------------------------------------------
-# Load dataset
-# ---------------------------------------------------------
 
 def load_dataset():
 
     return pd.read_csv(DATASET_PATH)
 
 
-# ---------------------------------------------------------
-# Create chart folder
-# ---------------------------------------------------------
-
 def create_chart_folder():
 
     os.makedirs(CHART_FOLDER, exist_ok=True)
 
 
-# ---------------------------------------------------------
-# Save chart
-# ---------------------------------------------------------
 
 def save_chart(filename):
 
@@ -54,9 +40,6 @@ def save_chart(filename):
     plt.close()
 
 
-# =========================================================
-# 1. Attrition Distribution
-# =========================================================
 
 def attrition_distribution(df):
 
@@ -76,9 +59,6 @@ def attrition_distribution(df):
     save_chart("attrition_distribution.png")
 
 
-# =========================================================
-# 2. Attrition by Gender
-# =========================================================
 
 def attrition_gender(df):
 
@@ -115,9 +95,6 @@ def attrition_gender(df):
     save_chart("attrition_gender.png")
 
 
-# =========================================================
-# 3. Age Distribution
-# =========================================================
 
 def age_distribution(df):
 
@@ -139,9 +116,6 @@ def age_distribution(df):
     save_chart("age_distribution.png")
 
 
-# =========================================================
-# 4. Age Group vs Attrition
-# =========================================================
 
 def age_group_attrition(df):
 
@@ -201,10 +175,6 @@ def age_group_attrition(df):
     save_chart("age_group_attrition.png")
 
 
-# =========================================================
-# 5. Job Role vs Attrition
-# =========================================================
-
 def job_role_attrition(df):
 
     table = pd.crosstab(
@@ -244,10 +214,6 @@ def job_role_attrition(df):
     save_chart("job_role_attrition.png")
 
 
-# =========================================================
-# 6. Department vs Attrition
-# =========================================================
-
 def department_attrition(df):
 
     table = pd.crosstab(
@@ -284,11 +250,6 @@ def department_attrition(df):
         )
 
     save_chart("department_attrition.png")
-
-
-# =========================================================
-# 7. Job Satisfaction vs Attrition
-# =========================================================
 
 def job_satisfaction_attrition(df):
 
@@ -328,10 +289,6 @@ def job_satisfaction_attrition(df):
     save_chart("job_satisfaction_attrition.png")
 
 
-# =========================================================
-# 8. Work-Life Balance vs Attrition
-# =========================================================
-
 def worklife_attrition(df):
 
     table = pd.crosstab(
@@ -370,9 +327,6 @@ def worklife_attrition(df):
     save_chart("worklife_attrition.png")
 
 
-# =========================================================
-# 9. Overtime vs Attrition
-# =========================================================
 
 def overtime_attrition(df):
 
@@ -412,10 +366,6 @@ def overtime_attrition(df):
     save_chart("overtime_attrition.png")
 
 
-# =========================================================
-# 10. Monthly Income vs Attrition
-# =========================================================
-
 def income_attrition(df):
 
     plt.figure(figsize=(7, 5))
@@ -433,11 +383,6 @@ def income_attrition(df):
     plt.ylabel("Monthly Income")
 
     save_chart("income_attrition.png")
-
-
-# =========================================================
-# 11. Years at Company vs Attrition
-# =========================================================
 
 def years_company_attrition(df):
 
@@ -457,10 +402,6 @@ def years_company_attrition(df):
 
     save_chart("years_company_attrition.png")
 
-
-# =========================================================
-# 12. Correlation Heatmap
-# =========================================================
 
 def correlation_heatmap(df):
 
@@ -508,10 +449,6 @@ def correlation_heatmap(df):
     save_chart("correlation_heatmap.png")
 
 
-# =========================================================
-# Generate all charts
-# =========================================================
-
 def generate_all_charts():
 
     create_chart_folder()
@@ -542,10 +479,6 @@ def generate_all_charts():
 
     correlation_heatmap(df)
 
-
-# =========================================================
-# EDA Summary
-# =========================================================
 
 def get_eda_summary():
 

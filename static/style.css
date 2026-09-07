@@ -1,140 +1,206 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-    background:#f4f6f9;
-}
-
-header{
-    background:#1e3d63;
-    color:white;
-    padding:20px;
-}
-
-header h1{
-    font-size:32px;
-}
-
-.container{
-    display:flex;
-}
-
-.sidebar{
-
-    width:230px;
-    min-height:100vh;
-    background:#294f78;
-
-}
-
-.sidebar ul{
-
-    list-style:none;
-
-}
-
-.sidebar li{
-
-    color:white;
-    padding:20px;
-    border-bottom:1px solid rgba(255,255,255,.1);
-
-}
-
-.sidebar li.active{
-
-    background:#4c79aa;
-    font-weight:bold;
-
-}
-
-.content{
-
-    flex:1;
-    background:white;
-    padding:30px;
-
-}
-
-.summary{
-
-    border-collapse:collapse;
-    width:400px;
-    margin-top:20px;
-    margin-bottom:30px;
-
-}
-
-.summary td{
-
-    border:1px solid #ccc;
-    padding:10px;
-
-}
-
-table{
-
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-    margin-bottom:40px;
-
-}
-
-table th{
-
-    background:#dde7f2;
-
-}
-
-table th,
-table td{
-
-    border:1px solid #cccccc;
-    padding:10px;
-    text-align:left;
-
-}
-
-.preview-table{
-
-    display:block;
-    overflow-x:auto;
-
-}
-
 /* =====================================================
-   EDA Dashboard
+   GLOBAL
 ===================================================== */
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+
+    overflow-x: hidden;
+}
+
+body {
+    background: #f4f6f9;
+    color: #222;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header {
+    width: 100%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #1e3a70,
+            #315a9b
+        );
+
+    color: white;
+
+    padding: 20px 35px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
+.container,
+.dashboard {
+    display: flex;
+
+    width: 100%;
+
+    min-height:
+        calc(100vh - 90px);
+}
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+.sidebar {
+    width: 235px;
+
+    min-width: 235px;
+
+    flex-shrink: 0;
+
+    min-height:
+        calc(100vh - 90px);
+
+    background:
+        linear-gradient(
+            180deg,
+            #1e3a70,
+            #263f78
+        );
+}
+
+.sidebar ul {
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li {
+    color: white;
+
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+}
 
 .sidebar a {
+    display: block;
+
+    padding: 17px 20px;
 
     color: white;
 
     text-decoration: none;
 
-    display: block;
+    font-size: 16px;
 
+    transition: 0.25s;
 }
 
+.sidebar a:hover {
+    background: #4169a1;
+
+    padding-left: 25px;
+}
+
+.sidebar a.active {
+    background: #4169a1;
+
+    font-weight: bold;
+
+    border-left:
+        4px solid white;
+}
 
 .sidebar span {
+    display: block;
 
-    font-size: 14px;
+    padding: 16px 20px;
 
-    opacity: 0.8;
+    color: white;
 
+    font-size: 15px;
+}
+
+.sidebar small {
+    display: block;
+
+    padding:
+        0 20px 15px;
+
+    color:
+        rgba(255, 255, 255, 0.65);
 }
 
 
-/* EDA description */
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.content,
+.main-content {
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    max-width: 100%;
+
+    padding: 35px;
+
+    background: white;
+
+    overflow-x: hidden;
+}
+
+.main-content h2 {
+    color: #243f70;
+
+    font-size: 32px;
+
+    margin-top: 0;
+
+    margin-bottom: 5px;
+}
+
+.description {
+    max-width: 100%;
+
+    color: #555;
+
+    font-size: 17px;
+
+    margin-bottom: 30px;
+
+    line-height: 1.6;
+
+    overflow-wrap: break-word;
+}
 
 .eda-description {
+    max-width: 100%;
 
     color: #555;
 
@@ -144,174 +210,666 @@ table td{
 
     line-height: 1.6;
 
+    overflow-wrap: break-word;
 }
 
 
-/* Summary cards */
+/* =====================================================
+   GENERAL TABLES
+===================================================== */
+
+table {
+    width: 100%;
+
+    max-width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+
+    margin-bottom: 40px;
+}
+
+table th {
+    background: #dce6f2;
+
+    font-weight: bold;
+}
+
+table th,
+table td {
+    border:
+        1px solid #cdd6e2;
+
+    padding: 12px;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+}
+
+table tr:hover td {
+    background: #f7f9fc;
+}
+
+
+/* =====================================================
+   SUMMARY TABLE
+===================================================== */
+
+.summary {
+    width: 400px;
+
+    max-width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+
+    margin-bottom: 30px;
+}
+
+.summary td {
+    border:
+        1px solid #ccc;
+
+    padding: 10px;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =====================================================
+   DATA PREVIEW TABLE
+===================================================== */
+
+/*
+   This is the important fix.
+
+   The preview contains 35 columns.
+   Instead of squeezing all columns into the
+   screen, the table gets its natural width and
+   the surrounding div provides horizontal scrolling.
+*/
+
+.preview-table {
+    width: 100%;
+
+    max-width: 100%;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    margin-top: 20px;
+
+    margin-bottom: 40px;
+
+    border:
+        1px solid #d0d7e2;
+
+    background: white;
+}
+
+
+/*
+   Allow the generated pandas table to keep
+   enough width for its 35 columns.
+*/
+
+.preview-table table {
+    width: max-content;
+
+    min-width: 100%;
+
+    margin: 0;
+
+    border-collapse: collapse;
+}
+
+
+/*
+   Keep column names and values on one line.
+*/
+
+.preview-table th,
+.preview-table td {
+    white-space: nowrap;
+
+    padding:
+        12px 15px;
+
+    border:
+        1px solid #cdd6e2;
+
+    text-align: left;
+}
+
+
+/*
+   Header styling
+*/
+
+.preview-table th {
+    background: #dce6f2;
+
+    font-weight: bold;
+}
+
+
+/*
+   Hover effect
+*/
+
+.preview-table tr:hover td {
+    background: #f7f9fc;
+}
+
+
+/* =====================================================
+   EDA SUMMARY CARDS
+===================================================== */
 
 .cards {
-
     display: grid;
 
     grid-template-columns:
-        repeat(5, 1fr);
+        repeat(3, minmax(0, 1fr));
 
-    gap: 15px;
+    gap: 20px;
+
+    width: 100%;
+
+    max-width: 100%;
 
     margin-bottom: 35px;
-
 }
 
-
 .card {
+    width: 100%;
 
-    background: #f7f9fc;
+    min-width: 0;
 
-    border: 1px solid #d8dee8;
+    background:
+        linear-gradient(
+            145deg,
+            #f8fafc,
+            #eef3f9
+        );
 
-    border-radius: 8px;
+    border:
+        1px solid #d8dee8;
 
-    padding: 20px;
+    border-radius: 10px;
+
+    padding: 22px;
 
     text-align: center;
 
+    transition: 0.25s;
+
+    overflow: hidden;
 }
 
+.card:hover {
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 5px 15px
+        rgba(0, 0, 0, 0.08);
+}
 
 .card h3 {
+    color: #555;
 
     font-size: 15px;
 
-    color: #555;
-
     margin-bottom: 12px;
-
 }
 
-
 .card p {
+    color: #1e3d63;
 
-    font-size: 26px;
+    font-size: 28px;
 
     font-weight: bold;
 
-    color: #1e3d63;
-
+    overflow-wrap: anywhere;
 }
 
 
-/* Section headings */
+/* =====================================================
+   SECTION HEADINGS
+===================================================== */
 
 .section-title {
-
     margin-top: 35px;
 
     margin-bottom: 20px;
 
     color: #1e3d63;
 
-    border-left: 5px solid #4c79aa;
+    border-left:
+        5px solid #4c79aa;
 
     padding-left: 12px;
-
 }
 
 
-/* Chart grid */
+/* =====================================================
+   EDA CHART GRID
+===================================================== */
 
 .chart-grid {
-
     display: grid;
 
     grid-template-columns:
-        repeat(2, 1fr);
+        repeat(2, minmax(0, 1fr));
 
     gap: 25px;
 
-    margin-bottom: 30px;
+    width: 100%;
 
+    max-width: 100%;
+
+    margin-bottom: 30px;
 }
 
-
-/* Chart card */
-
 .chart-card {
+    width: 100%;
+
+    min-width: 0;
+
+    max-width: 100%;
 
     background: white;
 
-    border: 1px solid #d8dee8;
+    border:
+        1px solid #d8dee8;
 
-    border-radius: 8px;
+    border-radius: 10px;
 
     padding: 15px;
 
     box-shadow:
-        0 2px 6px rgba(0,0,0,0.08);
+        0 2px 8px
+        rgba(0, 0, 0, 0.07);
 
+    transition: 0.25s;
+
+    overflow: hidden;
 }
 
+.chart-card:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 5px 14px
+        rgba(0, 0, 0, 0.10);
+}
 
 .chart-card h3 {
-
     text-align: center;
 
     color: #333;
 
-    margin-bottom: 10px;
+    font-size: 18px;
 
+    margin-bottom: 12px;
 }
 
-
 .chart-card img {
+    display: block;
 
     width: 100%;
 
+    max-width: 100%;
+
     height: auto;
 
-    display: block;
-
+    border-radius: 5px;
 }
 
 
-/* Heatmap */
+/* =====================================================
+   HEATMAP
+===================================================== */
 
 .heatmap-card {
+    width: 100%;
 
-    width: 95%;
+    max-width: 100%;
 
     margin-bottom: 50px;
 
+    overflow: hidden;
+}
+
+.heatmap-card img {
+    display: block;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    height: auto;
 }
 
 
-/* Responsive */
+/* =====================================================
+   DROPDOWN
+===================================================== */
 
-@media (max-width: 1000px) {
+select {
+    padding:
+        11px 14px;
+
+    border:
+        1px solid #c5ccd6;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+    background: white;
+
+    cursor: pointer;
+
+    outline: none;
+
+    max-width: 100%;
+}
+
+select:focus {
+    border-color: #4169a1;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(65, 105, 161, 0.15);
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+button {
+    padding:
+        11px 20px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #243f70;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: 0.25s;
+}
+
+button:hover {
+    background: #4169a1;
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =====================================================
+   REGRESSION / MODEL BOX
+===================================================== */
+
+.regression-box {
+    width: 100%;
+
+    max-width: 1000px;
+
+    margin-top: 25px;
+
+    padding: 28px;
+
+    background: #f7f9fc;
+
+    border:
+        1px solid #d5dce5;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px
+        rgba(0, 0, 0, 0.04);
+
+    overflow: hidden;
+}
+
+.regression-box h3 {
+    color: #243f70;
+
+    margin-top: 0;
+
+    margin-bottom: 25px;
+
+    font-size: 23px;
+}
+
+
+/* =====================================================
+   MODEL CONTROLS
+===================================================== */
+
+.regression-controls {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+}
+
+.regression-controls label {
+    font-size: 17px;
+
+    font-weight: 500;
+}
+
+.regression-controls select {
+    min-width: 250px;
+
+    padding:
+        12px 15px;
+}
+
+.regression-controls button {
+    padding:
+        12px 22px;
+}
+
+
+/* =====================================================
+   RESULT TABLE
+===================================================== */
+
+.result-table {
+    width: 100%;
+
+    max-width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 25px;
+
+    table-layout: fixed;
+}
+
+.result-table th,
+.result-table td {
+    padding: 15px;
+
+    border:
+        1px solid #d0d7e2;
+
+    text-align: left;
+
+    overflow-wrap: anywhere;
+}
+
+.result-table th {
+    width: 35%;
+
+    background: #dce6f2;
+
+    font-weight: bold;
+}
+
+.result-table td {
+    background: #f9fbfd;
+}
+
+.result-table tr:hover td {
+    background: #f1f5fa;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1100px) {
+
+    .sidebar {
+        width: 210px;
+
+        min-width: 210px;
+    }
+
+    .content,
+    .main-content {
+        padding: 28px;
+    }
 
     .cards {
-
         grid-template-columns:
-            repeat(2, 1fr);
-
+            repeat(2, minmax(0, 1fr));
     }
 
     .chart-grid {
-
-        grid-template-columns:
-            1fr;
-
+        grid-template-columns: 1fr;
     }
-
 }
 
 
-@media (max-width: 600px) {
+/* =====================================================
+   MOBILE
+===================================================== */
 
-    .cards {
+@media (max-width: 700px) {
 
-        grid-template-columns:
-            1fr;
-
+    .container,
+    .dashboard {
+        flex-direction: column;
     }
 
+    .sidebar {
+        width: 100%;
+
+        min-width: 100%;
+
+        min-height: auto;
+    }
+
+    .sidebar a {
+        padding:
+            14px 18px;
+    }
+
+    .content,
+    .main-content {
+        width: 100%;
+
+        max-width: 100%;
+
+        padding: 20px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+        width: 100%;
+    }
+
+    .regression-controls {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .regression-controls select {
+        width: 100%;
+
+        min-width: 0;
+    }
+
+    .regression-controls button {
+        width: fit-content;
+    }
+
+    .regression-box {
+        width: 100%;
+
+        padding: 20px;
+    }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 500px) {
+
+    header {
+        padding: 18px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    .content,
+    .main-content {
+        padding: 15px;
+    }
+
+    .main-content h2 {
+        font-size: 26px;
+    }
+
+    .regression-box {
+        padding: 18px;
+    }
+
+    .result-table th,
+    .result-table td {
+        padding: 10px;
+
+        font-size: 14px;
+    }
+
+    .chart-card {
+        padding: 10px;
+    }
 }
