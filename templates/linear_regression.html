@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkillMatch - Linear Regression</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+====================================================== -->
+
+<header>
+
+    <h1>SkillMatch</h1>
+
+</header>
+
+
+<!-- =====================================================
+     MAIN CONTAINER
+====================================================== -->
+
+<div class="container">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================== -->
+
+    <aside class="sidebar">
+
+        <ul>
+
+
+            <li>
+
+                <a href="/">
+                    Data Loading
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/eda">
+                    EDA
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/preprocessing">
+                    Preprocessing
+                </a>
+
+            </li>
+
+
+            <li class="active">
+
+                <a href="/linear-regression">
+                    Linear Regression
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/logistic-regression">
+                    Logistic Regression
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/tree-based">
+                    Tree Based Algorithms
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <span>
+                    Model Training
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+            <li>
+
+                <span>
+                    Prediction
+                </span>
+
+                <br>
+
+                <small>
+                    (Coming Soon)
+                </small>
+
+            </li>
+
+
+        </ul>
+
+    </aside>
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================== -->
+
+    <main class="content">
+
+
+        <h2>
+            Linear Regression
+        </h2>
+
+
+        <p class="description">
+
+            Linear Regression is used to predict
+            Monthly Income using the preprocessed
+            employee dataset.
+
+        </p>
+
+
+        <!-- =================================================
+             ALGORITHM SELECTION
+        ================================================== -->
+
+        <div class="regression-box">
+
+
+            <h3>
+                Select Regression Method
+            </h3>
+
+
+            <div class="regression-controls">
+
+
+                <label for="regressionMethod">
+
+                    Regression Type:
+
+                </label>
+
+
+                <select id="regressionMethod">
+
+
+                    <option value="linear">
+
+                        Linear Regression
+                        (Without Regularisation)
+
+                    </option>
+
+
+                    <option value="ridge">
+
+                        Ridge Regression
+                        (L2 Regularisation)
+
+                    </option>
+
+
+                    <option value="lasso">
+
+                        Lasso Regression
+                        (L1 Regularisation)
+
+                    </option>
+
+
+                </select>
+
+
+                <button onclick="runLinearRegression()">
+
+                    Run Regression
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             MODEL RESULTS
+        ================================================== -->
+
+        <div id="regressionResults"
+             class="regression-box"
+             style="display:none;">
+
+
+            <h3>
+                Model Results
+            </h3>
+
+
+            <table class="result-table">
+
+
+                <tr>
+
+                    <th>
+                        Model
+                    </th>
+
+                    <td id="modelResult">
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Target
+                    </th>
+
+                    <td id="targetResult">
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Mean Squared Error (MSE)
+                    </th>
+
+                    <td id="mseResult">
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Root Mean Squared Error (RMSE)
+                    </th>
+
+                    <td id="rmseResult">
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        R² Score
+                    </th>
+
+                    <td id="r2Result">
+                    </td>
+
+                </tr>
+
+
+            </table>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+function runLinearRegression() {
+
+
+    // Get selected algorithm
+
+    const method =
+        document.getElementById(
+            "regressionMethod"
+        ).value;
+
+
+    // Send selected algorithm to Flask
+
+    fetch(
+        "/run-linear-regression?method=" + method
+    )
+
+
+    .then(function(response) {
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server error"
+            );
+
+        }
+
+
+        return response.json();
+
+
+    })
+
+
+    .then(function(data) {
+
+
+        // Check for error
+
+        if (data.error) {
+
+            alert(
+                "Error: " + data.error
+            );
+
+            return;
+
+        }
+
+
+        // Show result box
+
+        document.getElementById(
+            "regressionResults"
+        ).style.display = "block";
+
+
+        // Display model
+
+        document.getElementById(
+            "modelResult"
+        ).innerText = data.model;
+
+
+        // Display target
+
+        document.getElementById(
+            "targetResult"
+        ).innerText = data.target;
+
+
+        // Display MSE
+
+        document.getElementById(
+            "mseResult"
+        ).innerText = data.mse;
+
+
+        // Display RMSE
+
+        document.getElementById(
+            "rmseResult"
+        ).innerText = data.rmse;
+
+
+        // Display R2
+
+        document.getElementById(
+            "r2Result"
+        ).innerText = data.r2;
+
+
+    })
+
+
+    .catch(function(error) {
+
+
+        console.error(error);
+
+
+        alert(
+            "Unable to run Linear Regression. " +
+            "Check the Flask terminal."
+        );
+
+
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
