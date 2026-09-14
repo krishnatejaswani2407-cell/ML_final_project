@@ -6,18 +6,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 html,
 body {
     width: 100%;
     min-height: 100%;
-
     overflow-x: hidden;
 }
 
@@ -33,20 +28,14 @@ body {
 
 header {
     width: 100%;
-
-    background:
-        linear-gradient(
-            135deg,
-            #1e3a70,
-            #315a9b
-        );
-
+    background: linear-gradient(
+        135deg,
+        #1e3a70,
+        #315a9b
+    );
     color: white;
-
     padding: 20px 35px;
-
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 header h1 {
@@ -59,13 +48,11 @@ header h1 {
 ===================================================== */
 
 .container,
-.dashboard {
+.dashboard,
+.layout {
     display: flex;
-
     width: 100%;
-
-    min-height:
-        calc(100vh - 90px);
+    min-height: calc(100vh - 90px);
 }
 
 
@@ -75,84 +62,63 @@ header h1 {
 
 .sidebar {
     width: 235px;
-
     min-width: 235px;
-
     flex-shrink: 0;
+    min-height: calc(100vh - 90px);
 
-    min-height:
-        calc(100vh - 90px);
-
-    background:
-        linear-gradient(
-            180deg,
-            #1e3a70,
-            #263f78
-        );
+    background: linear-gradient(
+        180deg,
+        #1e3a70,
+        #263f78
+    );
 }
 
 .sidebar ul {
     list-style: none;
-
     margin: 0;
     padding: 0;
 }
 
 .sidebar li {
     color: white;
-
-    border-bottom:
-        1px solid
-        rgba(255, 255, 255, 0.10);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-.sidebar a {
+.sidebar a,
+.sidebar .menu-item {
     display: block;
-
+    width: 100%;
     padding: 17px 20px;
-
     color: white;
-
     text-decoration: none;
-
     font-size: 16px;
-
     transition: 0.25s;
 }
 
-.sidebar a:hover {
+.sidebar a:hover,
+.sidebar .menu-item:hover {
     background: #4169a1;
-
     padding-left: 25px;
 }
 
-.sidebar a.active {
+.sidebar a.active,
+.sidebar .menu-item.active {
     background: #4169a1;
-
     font-weight: bold;
-
-    border-left:
-        4px solid white;
+    border-left: 4px solid white;
 }
 
 .sidebar span {
     display: block;
-
     padding: 16px 20px;
-
     color: white;
-
     font-size: 15px;
 }
 
 .sidebar small {
     display: block;
-
-    padding:
-        0 20px 15px;
-
-    color:
-        rgba(255, 255, 255, 0.65);
+    padding: 0 20px 15px;
+    color: rgba(255, 255, 255, 0.65);
 }
 
 
@@ -163,54 +129,90 @@ header h1 {
 .content,
 .main-content {
     flex: 1 1 auto;
-
     min-width: 0;
-
     max-width: 100%;
-
     padding: 35px;
-
     background: white;
-
     overflow-x: hidden;
 }
 
-.main-content h2 {
+.main-content h2,
+.content h2 {
     color: #243f70;
-
     font-size: 32px;
-
     margin-top: 0;
-
     margin-bottom: 5px;
 }
 
 .description {
     max-width: 100%;
-
     color: #555;
-
     font-size: 17px;
-
     margin-bottom: 30px;
-
     line-height: 1.6;
-
     overflow-wrap: break-word;
 }
 
 .eda-description {
     max-width: 100%;
-
     color: #555;
-
     font-size: 16px;
-
     margin-bottom: 25px;
-
     line-height: 1.6;
-
     overflow-wrap: break-word;
+}
+
+
+/* =====================================================
+   HIDDEN / ERROR
+===================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.error {
+    margin-top: 15px;
+    padding: 12px 15px;
+    color: #b00020;
+    background: #fdecea;
+    border: 1px solid #f5c2c7;
+    border-radius: 6px;
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+button {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #243f70;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.25s;
+}
+
+button:hover {
+    background: #4169a1;
+    transform: translateY(-1px);
+}
+
+#load-data-btn {
+    background: #243f70;
+    color: white;
+}
+
+#load-data-btn:hover {
+    background: #4169a1;
+}
+
+#loading-spinner {
+    margin-top: 10px;
+    color: #555;
 }
 
 
@@ -220,31 +222,22 @@ header h1 {
 
 table {
     width: 100%;
-
     max-width: 100%;
-
     border-collapse: collapse;
-
     margin-top: 20px;
-
     margin-bottom: 40px;
 }
 
 table th {
     background: #dce6f2;
-
     font-weight: bold;
 }
 
 table th,
 table td {
-    border:
-        1px solid #cdd6e2;
-
+    border: 1px solid #cdd6e2;
     padding: 12px;
-
     text-align: left;
-
     overflow-wrap: anywhere;
 }
 
@@ -259,109 +252,71 @@ table tr:hover td {
 
 .summary {
     width: 400px;
-
     max-width: 100%;
-
     border-collapse: collapse;
-
     margin-top: 20px;
-
     margin-bottom: 30px;
 }
 
 .summary td {
-    border:
-        1px solid #ccc;
-
+    border: 1px solid #ccc;
     padding: 10px;
-
     overflow-wrap: anywhere;
+}
+
+.summary-table {
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.summary-table td {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
 }
 
 
 /* =====================================================
-   DATA PREVIEW TABLE
+   DATA PREVIEW
 ===================================================== */
 
-/*
-   This is the important fix.
-
-   The preview contains 35 columns.
-   Instead of squeezing all columns into the
-   screen, the table gets its natural width and
-   the surrounding div provides horizontal scrolling.
-*/
-
-.preview-table {
+.preview-table,
+.table-wrapper {
     width: 100%;
-
     max-width: 100%;
-
     overflow-x: auto;
-
     overflow-y: hidden;
-
     margin-top: 20px;
-
     margin-bottom: 40px;
-
-    border:
-        1px solid #d0d7e2;
-
+    border: 1px solid #d0d7e2;
     background: white;
 }
 
-
-/*
-   Allow the generated pandas table to keep
-   enough width for its 35 columns.
-*/
-
-.preview-table table {
+.preview-table table,
+.table-wrapper table {
     width: max-content;
-
     min-width: 100%;
-
     margin: 0;
-
     border-collapse: collapse;
 }
 
-
-/*
-   Keep column names and values on one line.
-*/
-
 .preview-table th,
-.preview-table td {
+.preview-table td,
+.table-wrapper th,
+.table-wrapper td {
     white-space: nowrap;
-
-    padding:
-        12px 15px;
-
-    border:
-        1px solid #cdd6e2;
-
+    padding: 12px 15px;
+    border: 1px solid #cdd6e2;
     text-align: left;
 }
 
-
-/*
-   Header styling
-*/
-
-.preview-table th {
+.preview-table th,
+.table-wrapper th {
     background: #dce6f2;
-
     font-weight: bold;
 }
 
-
-/*
-   Hover effect
-*/
-
-.preview-table tr:hover td {
+.preview-table tr:hover td,
+.table-wrapper tr:hover td {
     background: #f7f9fc;
 }
 
@@ -372,69 +327,44 @@ table tr:hover td {
 
 .cards {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
-
     width: 100%;
-
     max-width: 100%;
-
     margin-bottom: 35px;
 }
 
 .card {
     width: 100%;
-
     min-width: 0;
-
-    background:
-        linear-gradient(
-            145deg,
-            #f8fafc,
-            #eef3f9
-        );
-
-    border:
-        1px solid #d8dee8;
-
+    background: linear-gradient(
+        145deg,
+        #f8fafc,
+        #eef3f9
+    );
+    border: 1px solid #d8dee8;
     border-radius: 10px;
-
     padding: 22px;
-
     text-align: center;
-
     transition: 0.25s;
-
     overflow: hidden;
 }
 
 .card:hover {
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 5px 15px
-        rgba(0, 0, 0, 0.08);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
 .card h3 {
     color: #555;
-
     font-size: 15px;
-
     margin-bottom: 12px;
 }
 
 .card p {
     color: #1e3d63;
-
     font-size: 28px;
-
     font-weight: bold;
-
     overflow-wrap: anywhere;
 }
 
@@ -445,14 +375,9 @@ table tr:hover td {
 
 .section-title {
     margin-top: 35px;
-
     margin-bottom: 20px;
-
     color: #1e3d63;
-
-    border-left:
-        5px solid #4c79aa;
-
+    border-left: 5px solid #4c79aa;
     padding-left: 12px;
 }
 
@@ -463,72 +388,43 @@ table tr:hover td {
 
 .chart-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 25px;
-
     width: 100%;
-
     max-width: 100%;
-
     margin-bottom: 30px;
 }
 
 .chart-card {
     width: 100%;
-
     min-width: 0;
-
     max-width: 100%;
-
     background: white;
-
-    border:
-        1px solid #d8dee8;
-
+    border: 1px solid #d8dee8;
     border-radius: 10px;
-
     padding: 15px;
-
-    box-shadow:
-        0 2px 8px
-        rgba(0, 0, 0, 0.07);
-
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
     transition: 0.25s;
-
     overflow: hidden;
 }
 
 .chart-card:hover {
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 5px 14px
-        rgba(0, 0, 0, 0.10);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.10);
 }
 
 .chart-card h3 {
     text-align: center;
-
     color: #333;
-
     font-size: 18px;
-
     margin-bottom: 12px;
 }
 
 .chart-card img {
     display: block;
-
     width: 100%;
-
     max-width: 100%;
-
     height: auto;
-
     border-radius: 5px;
 }
 
@@ -539,21 +435,15 @@ table tr:hover td {
 
 .heatmap-card {
     width: 100%;
-
     max-width: 100%;
-
     margin-bottom: 50px;
-
     overflow: hidden;
 }
 
 .heatmap-card img {
     display: block;
-
     width: 100%;
-
     max-width: 100%;
-
     height: auto;
 }
 
@@ -563,62 +453,19 @@ table tr:hover td {
 ===================================================== */
 
 select {
-    padding:
-        11px 14px;
-
-    border:
-        1px solid #c5ccd6;
-
+    padding: 11px 14px;
+    border: 1px solid #c5ccd6;
     border-radius: 6px;
-
     font-size: 16px;
-
     background: white;
-
     cursor: pointer;
-
     outline: none;
-
     max-width: 100%;
 }
 
 select:focus {
     border-color: #4169a1;
-
-    box-shadow:
-        0 0 0 2px
-        rgba(65, 105, 161, 0.15);
-}
-
-
-/* =====================================================
-   BUTTON
-===================================================== */
-
-button {
-    padding:
-        11px 20px;
-
-    border: none;
-
-    border-radius: 6px;
-
-    background: #243f70;
-
-    color: white;
-
-    cursor: pointer;
-
-    font-size: 16px;
-
-    transition: 0.25s;
-}
-
-button:hover {
-    background: #4169a1;
-
-    transform:
-        translateY(-1px);
+    box-shadow: 0 0 0 2px rgba(65, 105, 161, 0.15);
 }
 
 
@@ -628,34 +475,20 @@ button:hover {
 
 .regression-box {
     width: 100%;
-
     max-width: 1000px;
-
     margin-top: 25px;
-
     padding: 28px;
-
     background: #f7f9fc;
-
-    border:
-        1px solid #d5dce5;
-
+    border: 1px solid #d5dce5;
     border-radius: 10px;
-
-    box-shadow:
-        0 2px 8px
-        rgba(0, 0, 0, 0.04);
-
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     overflow: hidden;
 }
 
 .regression-box h3 {
     color: #243f70;
-
     margin-top: 0;
-
     margin-bottom: 25px;
-
     font-size: 23px;
 }
 
@@ -666,30 +499,23 @@ button:hover {
 
 .regression-controls {
     display: flex;
-
     align-items: center;
-
     gap: 15px;
-
     flex-wrap: wrap;
 }
 
 .regression-controls label {
     font-size: 17px;
-
     font-weight: 500;
 }
 
 .regression-controls select {
     min-width: 250px;
-
-    padding:
-        12px 15px;
+    padding: 12px 15px;
 }
 
 .regression-controls button {
-    padding:
-        12px 22px;
+    padding: 12px 22px;
 }
 
 
@@ -699,33 +525,23 @@ button:hover {
 
 .result-table {
     width: 100%;
-
     max-width: 100%;
-
     border-collapse: collapse;
-
     margin-top: 25px;
-
     table-layout: fixed;
 }
 
 .result-table th,
 .result-table td {
     padding: 15px;
-
-    border:
-        1px solid #d0d7e2;
-
+    border: 1px solid #d0d7e2;
     text-align: left;
-
     overflow-wrap: anywhere;
 }
 
 .result-table th {
     width: 35%;
-
     background: #dce6f2;
-
     font-weight: bold;
 }
 
@@ -739,6 +555,313 @@ button:hover {
 
 
 /* =====================================================
+   LINEAR REGRESSION PAGE
+===================================================== */
+
+.lr-header {
+    margin-bottom: 30px;
+}
+
+.lr-header h2 {
+    font-size: 30px;
+    margin-bottom: 8px;
+    color: #243f70;
+}
+
+.lr-header p {
+    color: #666;
+    line-height: 1.6;
+}
+
+
+/* MODEL CARDS */
+
+.lr-model-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.lr-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #d8dee8;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+.lr-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.lr-card h3 {
+    font-size: 23px;
+    margin: 12px 0;
+    color: #243f70;
+}
+
+.lr-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.lr-icon {
+    font-size: 40px;
+}
+
+.lr-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #e8f1ff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.ridge-badge {
+    background: #e9f8ef;
+}
+
+.lr-card ul {
+    padding-left: 20px;
+    line-height: 2;
+    color: #555;
+}
+
+.lr-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.ridge-button {
+    background: #16834b;
+}
+
+.lr-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   RESULT SECTION
+===================================================== */
+
+.lr-result-section {
+    background: #f8fafc;
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.lr-result-header {
+    margin-bottom: 20px;
+}
+
+.lr-info-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #2563eb;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   MODEL STATS
+===================================================== */
+
+.section-title {
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.lr-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.stat-box,
+.metric-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.stat-box span,
+.metric-box span {
+    display: block;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.stat-box strong,
+.metric-box strong {
+    font-size: 22px;
+}
+
+
+/* =====================================================
+   METRICS
+===================================================== */
+
+.lr-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.metric-box.highlight {
+    border: 2px solid #2563eb;
+}
+
+
+/* =====================================================
+   PREDICTION
+===================================================== */
+
+.prediction-box {
+    background: white;
+    padding: 25px;
+    margin-top: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    outline: none;
+}
+
+.input-group input:focus {
+    border-color: #2563eb;
+}
+
+.predict-button {
+    margin-top: 25px;
+    padding: 14px 28px;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.predict-button:hover {
+    opacity: 0.9;
+}
+
+
+/* =====================================================
+   PREDICTION RESULT
+===================================================== */
+
+.prediction-result {
+    margin-top: 25px;
+    padding: 30px;
+    background: #ecfdf5;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid #22c55e;
+}
+
+.prediction-result span {
+    font-size: 16px;
+    color: #166534;
+}
+
+.prediction-result h2 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+
+/* =====================================================
+   EMPTY STATE
+===================================================== */
+
+.lr-empty {
+    text-align: center;
+    background: white;
+    padding: 50px;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.empty-icon {
+    font-size: 50px;
+}
+
+
+/* =====================================================
+   MODEL RESULT / CONFUSION MATRIX
+===================================================== */
+
+.confusion-matrix {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.confusion-matrix th,
+.confusion-matrix td {
+    text-align: center;
+    padding: 15px;
+}
+
+.feature-importance {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+
+/* =====================================================
+   SUCCESS MESSAGE
+===================================================== */
+
+.success {
+    background: #ecfdf5;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+
+/* =====================================================
    TABLET
 ===================================================== */
 
@@ -746,7 +869,6 @@ button:hover {
 
     .sidebar {
         width: 210px;
-
         min-width: 210px;
     }
 
@@ -756,12 +878,16 @@ button:hover {
     }
 
     .cards {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .chart-grid {
         grid-template-columns: 1fr;
+    }
+
+    .lr-stats,
+    .lr-metrics {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -773,29 +899,26 @@ button:hover {
 @media (max-width: 700px) {
 
     .container,
-    .dashboard {
+    .dashboard,
+    .layout {
         flex-direction: column;
     }
 
     .sidebar {
         width: 100%;
-
         min-width: 100%;
-
         min-height: auto;
     }
 
-    .sidebar a {
-        padding:
-            14px 18px;
+    .sidebar a,
+    .sidebar .menu-item {
+        padding: 14px 18px;
     }
 
     .content,
     .main-content {
         width: 100%;
-
         max-width: 100%;
-
         padding: 20px;
     }
 
@@ -813,13 +936,11 @@ button:hover {
 
     .regression-controls {
         flex-direction: column;
-
         align-items: stretch;
     }
 
     .regression-controls select {
         width: 100%;
-
         min-width: 0;
     }
 
@@ -829,8 +950,20 @@ button:hover {
 
     .regression-box {
         width: 100%;
-
         padding: 20px;
+    }
+
+    .lr-model-container {
+        grid-template-columns: 1fr;
+    }
+
+    .lr-stats,
+    .lr-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .input-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -854,7 +987,8 @@ button:hover {
         padding: 15px;
     }
 
-    .main-content h2 {
+    .main-content h2,
+    .content h2 {
         font-size: 26px;
     }
 
@@ -865,11 +999,479 @@ button:hover {
     .result-table th,
     .result-table td {
         padding: 10px;
-
         font-size: 14px;
     }
 
     .chart-card {
         padding: 10px;
+    }
+
+    .lr-stats,
+    .lr-metrics,
+    .input-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================================
+   TREE BASED MODELS
+===================================================== */
+
+.lr-dropdown-container {
+    width: 100%;
+    margin-top: 25px;
+}
+
+.lr-dropdown {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e3e6eb;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+
+/* -----------------------------------------------------
+   DROPDOWN HEADER
+----------------------------------------------------- */
+
+.lr-dropdown summary {
+    list-style: none;
+    cursor: pointer;
+
+    width: 100%;
+    padding: 22px 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: white;
+    transition: background 0.2s ease;
+}
+
+.lr-dropdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.lr-dropdown summary:hover {
+    background: #f8fafc;
+}
+
+
+/* -----------------------------------------------------
+   MODEL TITLE
+----------------------------------------------------- */
+
+.lr-dropdown-title {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.lr-dropdown-title h3 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+    color: #222;
+}
+
+
+/* -----------------------------------------------------
+   ICON
+----------------------------------------------------- */
+
+.lr-dropdown-title .lr-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+
+    background: #f1f5f9;
+    border-radius: 12px;
+}
+
+
+/* -----------------------------------------------------
+   BADGE
+----------------------------------------------------- */
+
+.lr-dropdown .lr-badge {
+    display: inline-block;
+
+    padding: 6px 13px;
+
+    border-radius: 20px;
+
+    background: #e8f0ff;
+    color: #1d4ed8;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.lr-dropdown .ridge-badge {
+    background: #e8f8ef;
+    color: #15803d;
+}
+
+
+/* -----------------------------------------------------
+   ARROW
+----------------------------------------------------- */
+
+.lr-arrow {
+    font-size: 18px;
+    color: #222;
+
+    transition: transform 0.3s ease;
+}
+
+.lr-dropdown[open] .lr-arrow {
+    transform: rotate(180deg);
+}
+
+
+/* -----------------------------------------------------
+   DROPDOWN CONTENT
+----------------------------------------------------- */
+
+.lr-dropdown-content {
+    padding: 5px 28px 28px 28px;
+
+    border-top: 1px solid #eeeeee;
+
+    background: #ffffff;
+}
+
+.lr-dropdown-content p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.7;
+
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.lr-dropdown-content ul {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-left: 22px;
+}
+
+.lr-dropdown-content li {
+    margin-bottom: 10px;
+    color: #444;
+    line-height: 1.5;
+}
+
+
+/* -----------------------------------------------------
+   RUN MODEL BUTTON
+----------------------------------------------------- */
+
+.lr-dropdown-content .lr-button {
+    display: inline-block;
+
+    margin-top: 15px;
+    padding: 12px 22px;
+
+    background: #2563eb;
+    color: white !important;
+
+    text-decoration: none;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    transition: 0.2s ease;
+}
+
+.lr-dropdown-content .lr-button:hover {
+    background: #1d4ed8;
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.lr-dropdown-content .ridge-button {
+    background: #16834b;
+}
+
+.lr-dropdown-content .ridge-button:hover {
+    background: #126b3e;
+}
+
+
+/* =====================================================
+   TREE MODEL RESULTS
+===================================================== */
+
+.lr-result-section {
+    width: 100%;
+
+    background: #f8fafc;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    margin-top: 25px;
+}
+
+.lr-result-section h2 {
+    color: #243f70;
+    margin-bottom: 20px;
+}
+
+
+/* -----------------------------------------------------
+   MODEL INFORMATION
+----------------------------------------------------- */
+
+.lr-info-box {
+    width: 100%;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    border-left: 5px solid #2563eb;
+
+    line-height: 1.7;
+}
+
+.lr-info-box h3 {
+    margin-bottom: 12px;
+    color: #243f70;
+}
+
+.lr-info-box p {
+    color: #555;
+    margin-bottom: 5px;
+}
+
+
+/* -----------------------------------------------------
+   TRAINING STATS
+----------------------------------------------------- */
+
+.lr-result-section .lr-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.lr-result-section .stat-box {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.lr-result-section .stat-box span {
+    display: block;
+
+    color: #666;
+
+    margin-bottom: 8px;
+}
+
+.lr-result-section .stat-box strong {
+    font-size: 22px;
+}
+
+
+/* -----------------------------------------------------
+   PERFORMANCE METRICS
+----------------------------------------------------- */
+
+.lr-result-section .lr-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.lr-result-section .metric-box {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    text-align: center;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.lr-result-section .metric-box span {
+    display: block;
+
+    color: #666;
+
+    margin-bottom: 8px;
+}
+
+.lr-result-section .metric-box strong {
+    font-size: 22px;
+}
+
+.lr-result-section .metric-box.highlight {
+    border: 2px solid #2563eb;
+}
+
+
+/* -----------------------------------------------------
+   CONFUSION MATRIX
+----------------------------------------------------- */
+
+.lr-result-section .table-wrapper {
+    width: 100%;
+    max-width: 600px;
+
+    overflow-x: auto;
+
+    margin-top: 20px;
+}
+
+.lr-result-section .data-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 14px;
+}
+
+.lr-result-section .data-table th,
+.lr-result-section .data-table td {
+    padding: 12px 15px;
+
+    border: 1px solid #d0d7e2;
+
+    text-align: center;
+}
+
+.lr-result-section .data-table th {
+    background: #dce6f2;
+    font-weight: bold;
+}
+
+.lr-result-section .data-table td {
+    background: white;
+}
+
+
+/* -----------------------------------------------------
+   FEATURE IMPORTANCE
+----------------------------------------------------- */
+
+.feature-importance {
+    width: 100%;
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+
+/* =====================================================
+   TREE MODEL EMPTY STATE
+===================================================== */
+
+.lr-empty {
+    width: 100%;
+
+    text-align: center;
+
+    background: white;
+
+    padding: 50px;
+
+    border-radius: 15px;
+
+    margin-top: 25px;
+
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.lr-empty .empty-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.lr-empty h3 {
+    margin-bottom: 10px;
+    color: #243f70;
+}
+
+.lr-empty p {
+    color: #666;
+    line-height: 1.6;
+    max-width: 650px;
+    margin: auto;
+}
+
+
+/* =====================================================
+   TREE BASED RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .lr-result-section .lr-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lr-result-section .lr-metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .lr-dropdown summary {
+        padding: 18px;
+    }
+
+    .lr-dropdown-title {
+        gap: 12px;
+    }
+
+    .lr-dropdown-title h3 {
+        font-size: 18px;
+    }
+
+    .lr-dropdown-title .lr-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 25px;
+    }
+
+    .lr-dropdown-content {
+        padding: 5px 18px 22px 18px;
+    }
+
+    .lr-result-section {
+        padding: 20px;
+    }
+
+    .lr-result-section .lr-stats,
+    .lr-result-section .lr-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .lr-empty {
+        padding: 35px 20px;
     }
 }

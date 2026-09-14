@@ -1,553 +1,519 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block title %}
+EDA
+{% endblock %}
 
-    <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+{% block content %}
 
-    <title>SkillMatch - EDA</title>
+<!-- =========================================================
+     EDA HEADER
+========================================================= -->
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+<div class="lr-header">
 
-</head>
+    <h2>
+        Exploratory Data Analysis
+    </h2>
 
+    <p>
+        Explore employee characteristics, job satisfaction,
+        compensation, career growth and their relationship
+        with employee attrition.
+    </p>
 
-<body>
+</div>
 
 
-<!-- =====================================================
-     HEADER
-====================================================== -->
+<!-- =========================================================
+     ERROR
+========================================================= -->
 
-<header>
+{% if error %}
 
-    <h1>SkillMatch</h1>
+<div class="error">
+    {{ error }}
+</div>
 
-</header>
+{% endif %}
 
 
-<!-- =====================================================
-     MAIN CONTAINER
-====================================================== -->
+{% if summary %}
 
-<div class="container">
 
+<!-- =========================================================
+     EDA SUMMARY
+========================================================= -->
 
-    <!-- =================================================
-         SIDEBAR
-    ================================================== -->
+<div class="cards">
 
-    <aside class="sidebar">
 
-        <ul>
+    <!-- TOTAL EMPLOYEES -->
 
+    <div class="card">
 
-            <!-- DATA LOADING -->
+        <h3>
+            Total Employees
+        </h3>
 
-            <li>
-
-                <a href="/">
-                    Data Loading
-                </a>
-
-            </li>
-
-
-            <!-- EDA -->
-
-            <li class="active">
-
-                <a href="/eda">
-                    EDA
-                </a>
-
-            </li>
-
-
-            <!-- PREPROCESSING -->
-
-            <li>
-
-                <a href="/preprocessing">
-                    Preprocessing
-                </a>
-
-            </li>
-
-
-            <!-- LINEAR REGRESSION -->
-
-            <li>
-
-                <a href="/linear-regression">
-                    Linear Regression
-                </a>
-
-            </li>
-
-
-            <!-- LOGISTIC REGRESSION -->
-
-            <li>
-
-                <a href="/logistic-regression">
-                    Logistic Regression
-                </a>
-
-            </li>
-
-
-            <!-- TREE BASED ALGORITHMS -->
-
-            <li>
-
-                <a href="/tree-based">
-                    Tree Based Algorithms
-                </a>
-
-            </li>
-
-
-            <!-- MODEL TRAINING -->
-
-            <li>
-
-                <span>
-                    Model Training
-                </span>
-
-                <br>
-
-                <small>
-                    (Coming Soon)
-                </small>
-
-            </li>
-
-
-            <!-- PREDICTION -->
-
-            <li>
-
-                <span>
-                    Prediction
-                </span>
-
-                <br>
-
-                <small>
-                    (Coming Soon)
-                </small>
-
-            </li>
-
-
-        </ul>
-
-    </aside>
-
-
-    <!-- =================================================
-         MAIN CONTENT
-    ================================================== -->
-
-    <main class="content">
-
-
-        <!-- =================================================
-             TITLE
-        ================================================== -->
-
-        <h2>
-            Exploratory Data Analysis
-        </h2>
-
-
-        <p class="eda-description">
-
-            Explore employee characteristics, job satisfaction,
-            compensation, career growth and their relationship
-            with employee attrition.
-
+        <p>
+            {{ summary.total_employees }}
         </p>
 
+    </div>
 
-        <!-- =================================================
-             SUMMARY CARDS
-        ================================================== -->
 
-        <div class="cards">
+    <!-- EMPLOYEES LEFT -->
 
+    <div class="card">
 
-            <!-- TOTAL EMPLOYEES -->
+        <h3>
+            Employees Left
+        </h3>
 
-            <div class="card">
+        <p>
+            {{ summary.employees_left }}
+        </p>
 
-                <h3>
-                    Total Employees
-                </h3>
+    </div>
 
-                <p>
-                    {{ summary.total_employees }}
-                </p>
 
-            </div>
+    <!-- ATTRITION RATE -->
 
+    <div class="card">
 
-            <!-- EMPLOYEES LEFT -->
+        <h3>
+            Attrition Rate
+        </h3>
 
-            <div class="card">
+        <p>
+            {{ summary.attrition_rate }}%
+        </p>
 
-                <h3>
-                    Employees Left
-                </h3>
+    </div>
 
-                <p>
-                    {{ summary.employees_left }}
-                </p>
 
-            </div>
+    <!-- AVERAGE AGE -->
 
+    <div class="card">
 
-            <!-- ATTRITION RATE -->
+        <h3>
+            Average Age
+        </h3>
 
-            <div class="card">
+        <p>
+            {{ summary.average_age }}
+        </p>
 
-                <h3>
-                    Attrition Rate
-                </h3>
+    </div>
 
-                <p>
-                    {{ summary.attrition_rate }}%
-                </p>
 
-            </div>
+    <!-- AVERAGE MONTHLY INCOME -->
 
+    <div class="card">
 
-            <!-- AVERAGE AGE -->
+        <h3>
+            Average Monthly Income
+        </h3>
 
-            <div class="card">
+        <p>
+            ₹ {{ summary.average_income }}
+        </p>
 
-                <h3>
-                    Average Age
-                </h3>
+    </div>
 
-                <p>
-                    {{ summary.average_age }}
-                </p>
+</div>
 
-            </div>
 
+<!-- =========================================================
+     DATASET INFORMATION
+========================================================= -->
 
-            <!-- AVERAGE MONTHLY INCOME -->
+<h2 class="section-title">
+    Dataset Information
+</h2>
 
-            <div class="card">
 
-                <h3>
-                    Average Monthly Income
-                </h3>
+<table class="summary-table">
 
-                <p>
-                    ₹ {{ summary.average_income }}
-                </p>
+    <tr>
 
-            </div>
+        <td>
+            <strong>Total Rows</strong>
+        </td>
 
+        <td>
+            {{ summary.rows }}
+        </td>
 
-        </div>
+    </tr>
 
 
-        <!-- =================================================
-             SECTION 1 - TARGET ANALYSIS
-        ================================================== -->
+    <tr>
 
-        <h2 class="section-title">
+        <td>
+            <strong>Total Columns</strong>
+        </td>
 
-            1. Target Analysis
+        <td>
+            {{ summary.columns }}
+        </td>
 
-        </h2>
+    </tr>
 
 
-        <div class="chart-grid">
+    <tr>
 
+        <td>
+            <strong>Duplicate Rows</strong>
+        </td>
 
-            <div class="chart-card">
+        <td>
+            {{ summary.duplicates }}
+        </td>
 
-                <h3>
-                    Attrition Distribution
-                </h3>
+    </tr>
 
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/attrition_distribution.png'
-                ) }}">
+</table>
 
-            </div>
 
+<!-- =========================================================
+     SECTION 1 - TARGET ANALYSIS
+========================================================= -->
 
-            <div class="chart-card">
+<h2 class="section-title">
 
-                <h3>
-                    Attrition by Gender
-                </h3>
+    1. Target Analysis
 
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/attrition_gender.png'
-                ) }}">
+</h2>
 
-            </div>
 
+<div class="chart-grid">
 
-        </div>
 
+    <div class="chart-card">
 
-        <!-- =================================================
-             SECTION 2 - EMPLOYEE PROFILE ANALYSIS
-        ================================================== -->
+        <h3>
+            Attrition Distribution
+        </h3>
 
-        <h2 class="section-title">
-
-            2. Employee Profile Analysis
-
-        </h2>
-
-
-        <div class="chart-grid">
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Age Distribution
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/age_distribution.png'
-                ) }}">
-
-            </div>
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Age Group vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/age_group_attrition.png'
-                ) }}">
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             SECTION 3 - JOB PROFILE ANALYSIS
-        ================================================== -->
-
-        <h2 class="section-title">
-
-            3. Job Profile Analysis
-
-        </h2>
-
-
-        <div class="chart-grid">
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Job Role vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/job_role_attrition.png'
-                ) }}">
-
-            </div>
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Department vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/department_attrition.png'
-                ) }}">
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             SECTION 4 - SATISFACTION ANALYSIS
-        ================================================== -->
-
-        <h2 class="section-title">
-
-            4. Satisfaction Analysis
-
-        </h2>
-
-
-        <div class="chart-grid">
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Job Satisfaction vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/job_satisfaction_attrition.png'
-                ) }}">
-
-            </div>
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Work-Life Balance vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/worklife_attrition.png'
-                ) }}">
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             SECTION 5 - WORK & COMPENSATION
-        ================================================== -->
-
-        <h2 class="section-title">
-
-            5. Work & Compensation Analysis
-
-        </h2>
-
-
-        <div class="chart-grid">
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Overtime vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/overtime_attrition.png'
-                ) }}">
-
-            </div>
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Monthly Income vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/income_attrition.png'
-                ) }}">
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             SECTION 6 - CAREER GROWTH
-        ================================================== -->
-
-        <h2 class="section-title">
-
-            6. Career Growth Analysis
-
-        </h2>
-
-
-        <div class="chart-grid">
-
-
-            <div class="chart-card">
-
-                <h3>
-                    Years at Company vs Attrition
-                </h3>
-
-                <img src="{{ url_for(
-                    'static',
-                    filename='charts/years_company_attrition.png'
-                ) }}">
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             SECTION 7 - CORRELATION ANALYSIS
-        ================================================== -->
-
-        <h2 class="section-title">
-
-            7. Correlation Analysis
-
-        </h2>
-
-
-        <div class="chart-card heatmap-card">
-
-            <h3>
-                Numerical Feature Correlation Heatmap
-            </h3>
-
-            <img src="{{ url_for(
+        <img
+            src="{{ url_for(
                 'static',
-                filename='charts/correlation_heatmap.png'
-            ) }}">
+                filename='charts/attrition_distribution.png'
+            ) }}"
+            alt="Attrition Distribution"
+        >
 
-        </div>
+    </div>
 
 
-    </main>
+    <div class="chart-card">
+
+        <h3>
+            Attrition by Gender
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/attrition_gender.png'
+            ) }}"
+            alt="Attrition by Gender"
+        >
+
+    </div>
 
 
 </div>
 
 
-</body>
+<!-- =========================================================
+     SECTION 2 - EMPLOYEE PROFILE ANALYSIS
+========================================================= -->
 
-</html>
+<h2 class="section-title">
+
+    2. Employee Profile Analysis
+
+</h2>
+
+
+<div class="chart-grid">
+
+
+    <div class="chart-card">
+
+        <h3>
+            Age Distribution
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/age_distribution.png'
+            ) }}"
+            alt="Age Distribution"
+        >
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <h3>
+            Age Group vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/age_group_attrition.png'
+            ) }}"
+            alt="Age Group vs Attrition"
+        >
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     SECTION 3 - JOB PROFILE ANALYSIS
+========================================================= -->
+
+<h2 class="section-title">
+
+    3. Job Profile Analysis
+
+</h2>
+
+
+<div class="chart-grid">
+
+
+    <div class="chart-card">
+
+        <h3>
+            Job Role vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/job_role_attrition.png'
+            ) }}"
+            alt="Job Role vs Attrition"
+        >
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <h3>
+            Department vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/department_attrition.png'
+            ) }}"
+            alt="Department vs Attrition"
+        >
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     SECTION 4 - SATISFACTION ANALYSIS
+========================================================= -->
+
+<h2 class="section-title">
+
+    4. Satisfaction Analysis
+
+</h2>
+
+
+<div class="chart-grid">
+
+
+    <div class="chart-card">
+
+        <h3>
+            Job Satisfaction vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/job_satisfaction_attrition.png'
+            ) }}"
+            alt="Job Satisfaction vs Attrition"
+        >
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <h3>
+            Work-Life Balance vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/worklife_attrition.png'
+            ) }}"
+            alt="Work-Life Balance vs Attrition"
+        >
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     SECTION 5 - WORK & COMPENSATION
+========================================================= -->
+
+<h2 class="section-title">
+
+    5. Work & Compensation Analysis
+
+</h2>
+
+
+<div class="chart-grid">
+
+
+    <div class="chart-card">
+
+        <h3>
+            Overtime vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/overtime_attrition.png'
+            ) }}"
+            alt="Overtime vs Attrition"
+        >
+
+    </div>
+
+
+    <div class="chart-card">
+
+        <h3>
+            Monthly Income vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/income_attrition.png'
+            ) }}"
+            alt="Monthly Income vs Attrition"
+        >
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     SECTION 6 - CAREER GROWTH
+========================================================= -->
+
+<h2 class="section-title">
+
+    6. Career Growth Analysis
+
+</h2>
+
+
+<div class="chart-grid">
+
+
+    <div class="chart-card">
+
+        <h3>
+            Years at Company vs Attrition
+        </h3>
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/years_company_attrition.png'
+            ) }}"
+            alt="Years at Company vs Attrition"
+        >
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     SECTION 7 - CORRELATION ANALYSIS
+========================================================= -->
+
+<h2 class="section-title">
+
+    7. Correlation Analysis
+
+</h2>
+
+
+<div class="chart-card heatmap-card">
+
+    <h3>
+        Numerical Feature Correlation Heatmap
+    </h3>
+
+    <img
+        src="{{ url_for(
+            'static',
+            filename='charts/correlation_heatmap.png'
+        ) }}"
+        alt="Correlation Heatmap"
+    >
+
+</div>
+
+
+{% else %}
+
+<div class="lr-empty">
+
+    <div class="empty-icon">
+        📊
+    </div>
+
+    <h3>
+        No EDA Results Available
+    </h3>
+
+    <p>
+        EDA results could not be loaded.
+        Please check the Flask terminal for errors.
+    </p>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

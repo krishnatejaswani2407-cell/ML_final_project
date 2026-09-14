@@ -1,301 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block title %}Data Loading{% endblock %}
 
-    <meta charset="UTF-8">
+{% block content %}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<h2>Data Loading</h2>
 
-    <title>SkillMatch</title>
+{% if error %}
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+<div class="error">
+    {{ error }}
+</div>
 
-</head>
+{% endif %}
 
 
-<body>
+{% if data %}
+
+<!-- =====================================================
+     DATASET SUMMARY
+====================================================== -->
+
+<table class="summary-table">
+
+    <tr>
+        <td>Dataset</td>
+        <td>{{ data.dataset_name }}</td>
+    </tr>
+
+    <tr>
+        <td>Rows</td>
+        <td>{{ data.rows }}</td>
+    </tr>
+
+    <tr>
+        <td>Columns</td>
+        <td>{{ data.columns }}</td>
+    </tr>
+
+</table>
 
 
 <!-- =====================================================
-     HEADER
+     COLUMN INFORMATION
 ====================================================== -->
 
-<header>
+<h3>Column Information</h3>
 
-    <h1>SkillMatch</h1>
+<div class="table-wrapper">
 
-</header>
+    <table class="data-table">
 
-
-<!-- =====================================================
-     MAIN CONTAINER
-====================================================== -->
-
-<div class="container">
-
-
-    <!-- =================================================
-         SIDEBAR
-    ================================================== -->
-
-    <aside class="sidebar">
-
-        <ul>
-
-
-            <!-- DATA LOADING -->
-
-            <li class="active">
-
-                <a href="/">
-                    Data Loading
-                </a>
-
-            </li>
-
-
-            <!-- EDA -->
-
-            <li>
-
-                <a href="/eda">
-                    EDA
-                </a>
-
-            </li>
-
-
-            <!-- PREPROCESSING -->
-
-            <li>
-
-                <a href="/preprocessing">
-                    Preprocessing
-                </a>
-
-            </li>
-
-
-            <!-- LINEAR REGRESSION -->
-
-            <li>
-
-                <a href="/linear-regression">
-                    Linear Regression
-                </a>
-
-            </li>
-
-
-            <!-- LOGISTIC REGRESSION -->
-
-            <li>
-
-                <a href="/logistic-regression">
-                    Logistic Regression
-                </a>
-
-            </li>
-
-
-            <!-- TREE BASED ALGORITHMS -->
-
-            <li>
-
-                <a href="/tree-based">
-                    Tree Based Algorithms
-                </a>
-
-            </li>
-
-
-            <!-- MODEL TRAINING -->
-
-            <li>
-
-                <span>
-                    Model Training
-                </span>
-
-                <br>
-
-                <small>
-                    (Coming Soon)
-                </small>
-
-            </li>
-
-
-            <!-- PREDICTION -->
-
-            <li>
-
-                <span>
-                    Prediction
-                </span>
-
-                <br>
-
-                <small>
-                    (Coming Soon)
-                </small>
-
-            </li>
-
-
-        </ul>
-
-    </aside>
-
-
-    <!-- =================================================
-         MAIN CONTENT
-    ================================================== -->
-
-    <main class="content">
-
-
-        <!-- PAGE TITLE -->
-
-        <h2>
-            Data Loading
-        </h2>
-
-
-        <!-- DATASET SUMMARY -->
-
-        <table class="summary">
-
+        <thead>
 
             <tr>
-
-                <td>
-                    Dataset
-                </td>
-
-                <td>
-                    {{ data.dataset_name }}
-                </td>
-
+                <th>Column</th>
+                <th>Datatype</th>
+                <th>Missing Values</th>
             </tr>
 
+        </thead>
 
-            <tr>
+        <tbody>
 
-                <td>
-                    Rows
-                </td>
+        {% for col in data.column_info %}
 
-                <td>
-                    {{ data.rows }}
-                </td>
+        <tr>
 
-            </tr>
+            <td>
+                {{ col.name }}
+            </td>
 
+            <td>
+                {{ col.dtype }}
+            </td>
 
-            <tr>
+            <td>
+                {{ col.missing }}
+            </td>
 
-                <td>
-                    Columns
-                </td>
+        </tr>
 
-                <td>
-                    {{ data.columns }}
-                </td>
+        {% endfor %}
 
-            </tr>
+        </tbody>
 
-
-        </table>
-
-
-        <!-- =================================================
-             COLUMN INFORMATION
-        ================================================== -->
-
-        <h3>
-            Column Information
-        </h3>
-
-
-        <table>
-
-
-            <tr>
-
-                <th>
-                    Column
-                </th>
-
-                <th>
-                    Datatype
-                </th>
-
-                <th>
-                    Missing Values
-                </th>
-
-            </tr>
-
-
-            {% for col in data.column_info %}
-
-
-            <tr>
-
-                <td>
-                    {{ col.name }}
-                </td>
-
-                <td>
-                    {{ col.dtype }}
-                </td>
-
-                <td>
-                    {{ col.missing }}
-                </td>
-
-            </tr>
-
-
-            {% endfor %}
-
-
-        </table>
-
-
-        <!-- =================================================
-             DATA PREVIEW
-        ================================================== -->
-
-        <h3>
-            Preview (First 10 Rows)
-        </h3>
-
-
-        <!--
-            IMPORTANT:
-            The generated pandas HTML table is placed
-            inside this wrapper so that it can scroll
-            horizontally instead of squeezing 35 columns.
-        -->
-
-        <div class="preview-table">
-
-            {{ data.preview|safe }}
-
-        </div>
-
-
-    </main>
-
+    </table>
 
 </div>
 
 
-</body>
+<!-- =====================================================
+     DATA PREVIEW
+====================================================== -->
 
-</html>
+<h3>Preview (First 10 Rows)</h3>
+
+<div class="table-wrapper">
+
+    {{ data.preview|safe }}
+
+</div>
+
+
+{% endif %}
+
+{% endblock %}

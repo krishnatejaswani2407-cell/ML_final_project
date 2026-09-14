@@ -1,453 +1,841 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block title %}
+Tree Based Models
+{% endblock %}
 
-    <meta charset="UTF-8">
+{% block content %}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<div class="lr-header">
 
-    <title>SkillMatch - Tree Based Algorithms</title>
+    <h2>Tree Based Models</h2>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <p>
+        Classification models used to predict employee
+        Attrition using the preprocessed employee dataset.
+    </p>
 
-</head>
-
-
-<body>
-
-
-<!-- =====================================================
-     HEADER
-====================================================== -->
-
-<header>
-
-    <h1>SkillMatch</h1>
-
-</header>
+</div>
 
 
-<div class="container">
+<!-- =================================================
+     MODEL DROPDOWNS
+================================================== -->
+
+<div class="lr-dropdown-container">
 
 
     <!-- =================================================
-         SIDEBAR
+         ID3
     ================================================== -->
 
-    <aside class="sidebar">
+    <details class="lr-dropdown"
+        {% if selected_model == 'id3' %}open{% endif %}>
 
-        <ul>
+        <summary>
 
+            <div class="lr-dropdown-title">
 
-            <li>
+                <div class="lr-icon">
+                    🌳
+                </div>
 
-                <a href="/">
-                    Data Loading
-                </a>
+                <div>
 
-            </li>
+                    <h3>
+                        ID3
+                    </h3>
 
+                    <span class="lr-badge">
+                        Information Gain
+                    </span>
 
-            <li>
-
-                <a href="/eda">
-                    EDA
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <a href="/preprocessing">
-                    Preprocessing
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <a href="/linear-regression">
-                    Linear Regression
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <a href="/logistic-regression">
-                    Logistic Regression
-                </a>
-
-            </li>
-
-
-            <li class="active">
-
-                <a href="/tree-based">
-                    Tree Based Algorithms
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <span>
-                    Model Training
-                </span>
-
-                <br>
-
-                <small>
-                    (Coming Soon)
-                </small>
-
-            </li>
-
-
-            <li>
-
-                <span>
-                    Prediction
-                </span>
-
-                <br>
-
-                <small>
-                    (Coming Soon)
-                </small>
-
-            </li>
-
-
-        </ul>
-
-    </aside>
-
-
-    <!-- =================================================
-         MAIN CONTENT
-    ================================================== -->
-
-    <main class="content">
-
-
-        <h2>
-            Tree Based Algorithms
-        </h2>
-
-
-        <p class="page-description">
-
-            Tree based classification algorithms are used
-            to predict employee Attrition using the
-            preprocessed dataset.
-
-        </p>
-
-
-        <!-- =================================================
-             ALGORITHM SELECTION
-        ================================================== -->
-
-        <div class="regression-box">
-
-
-            <h3>
-                Select Tree Based Algorithm
-            </h3>
-
-
-            <div class="regression-controls">
-
-
-                <label for="treeAlgorithm">
-
-                    Algorithm:
-
-                </label>
-
-
-                <select id="treeAlgorithm">
-
-
-                    <option value="decision_tree">
-
-                        Decision Tree
-
-                    </option>
-
-
-                    <option value="random_forest">
-
-                        Random Forest
-
-                    </option>
-
-
-                    <option value="extra_trees">
-
-                        Extra Trees
-
-                    </option>
-
-
-                    <option value="gradient_boosting">
-
-                        Gradient Boosting
-
-                    </option>
-
-
-                    <option value="adaboost">
-
-                        AdaBoost
-
-                    </option>
-
-
-                    <option value="xgboost">
-
-                        Extreme Gradient Boosting (XGBoost)
-
-                    </option>
-
-
-                    <option value="lightgbm">
-
-                        LightGBM
-
-                    </option>
-
-
-                </select>
-
-
-                <button onclick="runTreeAlgorithm()">
-
-                    Run Algorithm
-
-                </button>
-
+                </div>
 
             </div>
 
+            <div class="lr-arrow">
+                ▼
+            </div>
+
+        </summary>
+
+
+        <div class="lr-dropdown-content">
+
+            <p>
+                Decision Tree using Information Gain
+                and Entropy for classification.
+            </p>
+
+            <ul>
+
+                <li>
+                    Decision Tree classification
+                </li>
+
+                <li>
+                    Uses Information Gain
+                </li>
+
+                <li>
+                    Uses Entropy for splitting
+                </li>
+
+            </ul>
+
+            <a href="{{ url_for('id3_model') }}"
+               class="lr-button">
+
+                Run ID3 →
+
+            </a>
 
         </div>
 
-
-        <!-- =================================================
-             RESULTS
-        ================================================== -->
-
-        <div id="treeResults"
-             class="regression-box"
-             style="display:none;">
+    </details>
 
 
-            <h3>
-                Model Results
-            </h3>
+
+    <!-- =================================================
+         RANDOM FOREST
+    ================================================== -->
+
+    <details class="lr-dropdown"
+        {% if selected_model == 'random_forest' %}open{% endif %}>
+
+        <summary>
+
+            <div class="lr-dropdown-title">
+
+                <div class="lr-icon">
+                    🌲
+                </div>
+
+                <div>
+
+                    <h3>
+                        Random Forest
+                    </h3>
+
+                    <span class="lr-badge ridge-badge">
+                        Ensemble Learning
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="lr-arrow">
+                ▼
+            </div>
+
+        </summary>
 
 
-            <table class="result-table">
+        <div class="lr-dropdown-content">
 
+            <p>
+                Ensemble of multiple decision trees
+                used for better prediction.
+            </p>
 
-                <tr>
+            <ul>
 
-                    <th>
-                        Algorithm
-                    </th>
+                <li>
+                    Ensemble classification
+                </li>
 
-                    <td id="algorithmResult"></td>
+                <li>
+                    Uses multiple decision trees
+                </li>
 
-                </tr>
+                <li>
+                    Improves prediction performance
+                </li>
 
+            </ul>
 
-                <tr>
+            <a href="{{ url_for('random_forest_model') }}"
+               class="lr-button ridge-button">
 
-                    <th>
-                        Target
-                    </th>
+                Run Random Forest →
 
-                    <td id="targetResult"></td>
-
-                </tr>
-
-
-                <tr>
-
-                    <th>
-                        Accuracy
-                    </th>
-
-                    <td id="accuracyResult"></td>
-
-                </tr>
-
-
-                <tr>
-
-                    <th>
-                        Precision
-                    </th>
-
-                    <td id="precisionResult"></td>
-
-                </tr>
-
-
-                <tr>
-
-                    <th>
-                        Recall
-                    </th>
-
-                    <td id="recallResult"></td>
-
-                </tr>
-
-
-                <tr>
-
-                    <th>
-                        F1 Score
-                    </th>
-
-                    <td id="f1Result"></td>
-
-                </tr>
-
-
-            </table>
-
+            </a>
 
         </div>
 
+    </details>
 
-    </main>
+
+
+    <!-- =================================================
+         ADABOOST
+    ================================================== -->
+
+    <details class="lr-dropdown"
+        {% if selected_model == 'adaboost' %}open{% endif %}>
+
+        <summary>
+
+            <div class="lr-dropdown-title">
+
+                <div class="lr-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <h3>
+                        AdaBoost
+                    </h3>
+
+                    <span class="lr-badge">
+                        Boosting Algorithm
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="lr-arrow">
+                ▼
+            </div>
+
+        </summary>
+
+
+        <div class="lr-dropdown-content">
+
+            <p>
+                Boosting algorithm that combines
+                weak learners to improve prediction.
+            </p>
+
+            <ul>
+
+                <li>
+                    Boosting-based classification
+                </li>
+
+                <li>
+                    Combines weak learners
+                </li>
+
+                <li>
+                    Sequential learning approach
+                </li>
+
+            </ul>
+
+            <a href="{{ url_for('adaboost_model') }}"
+               class="lr-button">
+
+                Run AdaBoost →
+
+            </a>
+
+        </div>
+
+    </details>
+
+
+
+    <!-- =================================================
+         GRADIENT BOOSTING
+    ================================================== -->
+
+    <details class="lr-dropdown"
+        {% if selected_model == 'gradient_boosting' %}open{% endif %}>
+
+        <summary>
+
+            <div class="lr-dropdown-title">
+
+                <div class="lr-icon">
+                    📈
+                </div>
+
+                <div>
+
+                    <h3>
+                        Gradient Boosting
+                    </h3>
+
+                    <span class="lr-badge ridge-badge">
+                        Gradient Boosting
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="lr-arrow">
+                ▼
+            </div>
+
+        </summary>
+
+
+        <div class="lr-dropdown-content">
+
+            <p>
+                Sequentially improves predictions
+                by reducing errors.
+            </p>
+
+            <ul>
+
+                <li>
+                    Boosting-based classification
+                </li>
+
+                <li>
+                    Sequential model improvement
+                </li>
+
+                <li>
+                    Reduces prediction errors
+                </li>
+
+            </ul>
+
+            <a href="{{ url_for('gradient_boosting_model') }}"
+               class="lr-button ridge-button">
+
+                Run Gradient Boosting →
+
+            </a>
+
+        </div>
+
+    </details>
+
+
+
+    <!-- =================================================
+         XGBOOST
+    ================================================== -->
+
+    <details class="lr-dropdown"
+        {% if selected_model == 'xgboost' %}open{% endif %}>
+
+        <summary>
+
+            <div class="lr-dropdown-title">
+
+                <div class="lr-icon">
+                    🚀
+                </div>
+
+                <div>
+
+                    <h3>
+                        XGBoost
+                    </h3>
+
+                    <span class="lr-badge">
+                        High Performance
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="lr-arrow">
+                ▼
+            </div>
+
+        </summary>
+
+
+        <div class="lr-dropdown-content">
+
+            <p>
+                High-performance gradient boosting
+                algorithm for classification.
+            </p>
+
+            <ul>
+
+                <li>
+                    Gradient boosting classification
+                </li>
+
+                <li>
+                    High-performance algorithm
+                </li>
+
+                <li>
+                    Efficient model training
+                </li>
+
+            </ul>
+
+            <a href="{{ url_for('xgboost_model') }}"
+               class="lr-button">
+
+                Run XGBoost →
+
+            </a>
+
+        </div>
+
+    </details>
+
+
+
+    <!-- =================================================
+         LIGHTGBM
+    ================================================== -->
+
+    <details class="lr-dropdown"
+        {% if selected_model == 'lightgbm' %}open{% endif %}>
+
+        <summary>
+
+            <div class="lr-dropdown-title">
+
+                <div class="lr-icon">
+                    💡
+                </div>
+
+                <div>
+
+                    <h3>
+                        LightGBM
+                    </h3>
+
+                    <span class="lr-badge ridge-badge">
+                        Fast & Memory Efficient
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="lr-arrow">
+                ▼
+            </div>
+
+        </summary>
+
+
+        <div class="lr-dropdown-content">
+
+            <p>
+                Fast and memory-efficient gradient
+                boosting framework.
+            </p>
+
+            <ul>
+
+                <li>
+                    Gradient boosting classification
+                </li>
+
+                <li>
+                    Fast training
+                </li>
+
+                <li>
+                    Memory-efficient framework
+                </li>
+
+            </ul>
+
+            <a href="{{ url_for('lightgbm_model') }}"
+               class="lr-button ridge-button">
+
+                Run LightGBM →
+
+            </a>
+
+        </div>
+
+    </details>
 
 
 </div>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-====================================================== -->
 
-<script>
+<!-- =================================================
+     ERROR
+================================================== -->
 
+{% if error %}
 
-function runTreeAlgorithm() {
+<div class="error">
+    {{ error }}
+</div>
 
-
-    const algorithm =
-        document.getElementById(
-            "treeAlgorithm"
-        ).value;
+{% endif %}
 
 
-    fetch(
-        "/run-tree-algorithm?algorithm=" + algorithm
-    )
+
+<!-- =================================================
+     RESULTS
+================================================== -->
+
+{% if results %}
+
+<div id="treeResults"
+     class="lr-result-section">
 
 
-    .then(function(response) {
+    <h2>
+        {{ results.model_name }} Results
+    </h2>
 
 
-        if (!response.ok) {
+    <!-- =================================================
+         MODEL INFORMATION
+    ================================================== -->
 
-            throw new Error(
-                "Server error"
-            );
+    <div class="lr-info-box">
 
-        }
+        <h3>
+            Model Information
+        </h3>
 
+        <p>
 
-        return response.json();
+            <strong>
+                Model:
+            </strong>
 
+            {{ results.model_name }}
 
-    })
-
-
-    .then(function(data) {
-
-
-        if (data.error) {
-
-            alert(
-                "Error: " + data.error
-            );
-
-            return;
-
-        }
+        </p>
 
 
-        document.getElementById(
-            "treeResults"
-        ).style.display = "block";
+        <p>
+
+            <strong>
+                Target:
+            </strong>
+
+            {{ results.target_column }}
+
+        </p>
 
 
-        document.getElementById(
-            "algorithmResult"
-        ).innerText = data.algorithm;
+        <p>
+
+            <strong>
+                Total Dataset Rows:
+            </strong>
+
+            {{ results.total_rows }}
+
+        </p>
 
 
-        document.getElementById(
-            "targetResult"
-        ).innerText = data.target;
+        <p>
+
+            <strong>
+                Features:
+            </strong>
+
+            {{ results.total_features }}
+
+        </p>
+
+    </div>
 
 
-        document.getElementById(
-            "accuracyResult"
-        ).innerText = data.accuracy;
+
+    <!-- =================================================
+         TRAINING INFORMATION
+    ================================================== -->
+
+    <h3 class="section-title">
+        📊 Training Information
+    </h3>
 
 
-        document.getElementById(
-            "precisionResult"
-        ).innerText = data.precision;
+    <div class="lr-stats">
 
 
-        document.getElementById(
-            "recallResult"
-        ).innerText = data.recall;
+        <div class="stat-box">
+
+            <span>
+                Training Data
+            </span>
+
+            <strong>
+                {{ results.training_rows }}
+            </strong>
+
+        </div>
 
 
-        document.getElementById(
-            "f1Result"
-        ).innerText = data.f1;
+        <div class="stat-box">
+
+            <span>
+                Testing Data
+            </span>
+
+            <strong>
+                {{ results.testing_rows }}
+            </strong>
+
+        </div>
 
 
-    })
+        <div class="stat-box">
+
+            <span>
+                Features
+            </span>
+
+            <strong>
+                {{ results.total_features }}
+            </strong>
+
+        </div>
 
 
-    .catch(function(error) {
+    </div>
 
 
-        console.error(error);
+
+    <!-- =================================================
+         PERFORMANCE METRICS
+    ================================================== -->
+
+    <h3 class="section-title">
+        📈 Performance Metrics
+    </h3>
 
 
-        alert(
-            "Unable to run Tree Based Algorithm. " +
-            "Check the Flask terminal."
-        );
+    <div class="lr-metrics">
 
 
-    });
+        <div class="metric-box highlight">
 
-}
+            <span>
+                Accuracy
+            </span>
+
+            <strong>
+                {{ results.accuracy }}%
+            </strong>
+
+        </div>
 
 
-</script>
+        <div class="metric-box">
+
+            <span>
+                Precision
+            </span>
+
+            <strong>
+                {{ results.precision }}%
+            </strong>
+
+        </div>
 
 
-</body>
+        <div class="metric-box">
 
-</html>
+            <span>
+                Recall
+            </span>
+
+            <strong>
+                {{ results.recall }}%
+            </strong>
+
+        </div>
+
+
+        <div class="metric-box">
+
+            <span>
+                F1 Score
+            </span>
+
+            <strong>
+                {{ results.f1 }}%
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         CONFUSION MATRIX
+    ================================================== -->
+
+    <h3 class="section-title">
+        🎯 Confusion Matrix
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    <th></th>
+
+                    <th>
+                        Predicted 0
+                    </th>
+
+                    <th>
+                        Predicted 1
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        Actual 0
+                    </th>
+
+                    <td>
+                        {{ results.confusion_matrix[0][0] }}
+                    </td>
+
+                    <td>
+                        {{ results.confusion_matrix[0][1] }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        Actual 1
+                    </th>
+
+                    <td>
+                        {{ results.confusion_matrix[1][0] }}
+                    </td>
+
+                    <td>
+                        {{ results.confusion_matrix[1][1] }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+    <!-- =================================================
+         FEATURE IMPORTANCE
+    ================================================== -->
+
+    <h3 class="section-title">
+        🔍 Feature Importance
+    </h3>
+
+
+    <div class="table-wrapper">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Rank
+                    </th>
+
+                    <th>
+                        Feature
+                    </th>
+
+                    <th>
+                        Importance
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in results.feature_importance %}
+
+                <tr>
+
+                    <td>
+                        {{ loop.index }}
+                    </td>
+
+                    <td>
+                        {{ item.feature }}
+                    </td>
+
+                    <td>
+                        {{ item.importance }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+{% else %}
+
+
+<!-- =================================================
+     EMPTY STATE
+================================================== -->
+
+<div class="lr-empty">
+
+    <div class="empty-icon">
+        🌳
+    </div>
+
+    <h3>
+        Select a Tree Based Model
+    </h3>
+
+    <p>
+        Choose a model above to train it and view
+        performance metrics, confusion matrix and
+        feature importance.
+    </p>
+
+</div>
+
+
+{% endif %}
+
+{% endblock %}

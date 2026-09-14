@@ -1,3 +1,5 @@
+import pandas as pd
+
 from sklearn.model_selection import train_test_split
 
 from sklearn.linear_model import (
@@ -6,79 +8,70 @@ from sklearn.linear_model import (
     Lasso
 )
 
-from sklearn.preprocessing import StandardScaler
-
 from sklearn.metrics import (
+    mean_absolute_error,
     mean_squared_error,
     r2_score
 )
 
-from math import sqrt
-
 from preprocess import get_preprocessed_data
 
 
-def run_linear_regression(method):
+# ==========================================================
+# TRAIN LINEAR REGRESSION MODEL
+# ==========================================================
 
-    # ==========================================
+def train_model(
+    regularization="none"
+):
+
+    # ==========================================================
     # GET PREPROCESSED DATA
-    # ==========================================
+    # ==========================================================
 
     df = get_preprocessed_data()
 
 
-    # ==========================================
+    # ==========================================================
     # FEATURES
-    # ==========================================
+    # ==========================================================
 
     features = [
 
-        "Age",
-        "DailyRate",
-        "DistanceFromHome",
-        "Education",
-        "EnvironmentSatisfaction",
-        "JobInvolvement",
-        "JobLevel",
-        "JobSatisfaction",
-        "MonthlyRate",
-        "NumCompaniesWorked",
-        "PercentSalaryHike",
-        "PerformanceRating",
-        "RelationshipSatisfaction",
-        "TotalWorkingYears",
-        "TrainingTimesLastYear",
-        "WorkLifeBalance",
-        "YearsAtCompany",
-        "YearsInCurrentRole",
-        "YearsSinceLastPromotion",
-        "YearsWithCurrManager",
+        column
 
-        "AgeGroup",
-        "ExperienceGroup",
-        "TenureGroup",
-        "OverallSatisfaction"
+        for column in df.columns
+
+        if column not in [
+
+            "Attrition",
+
+            "MonthlyIncome"
+
+        ]
 
     ]
 
 
-    # ==========================================
+    # ==========================================================
     # INPUT AND TARGET
-    # ==========================================
+    # ==========================================================
 
-    X = df[features]
+    X = df[features].copy()
 
     # Linear Regression predicts Monthly Income
-    y = df["MonthlyIncome"]
+
+    y = df["MonthlyIncome"].copy()
 
 
-    # ==========================================
-    # TRAIN TEST SPLIT
-    # ==========================================
+    # ==========================================================
+    # TRAIN-TEST SPLIT
+    # ==========================================================
 
     X_train, X_test, y_train, y_test = train_test_split(
 
         X,
+
         y,
 
         test_size=0.30,
@@ -88,113 +81,165 @@ def run_linear_regression(method):
     )
 
 
-    # ==========================================
-    # STANDARD SCALING
-    # ==========================================
+    # ==========================================================
+    # SELECT REGRESSION MODEL
+    # ==========================================================
 
-    scaler = StandardScaler()
-
-    X_train = scaler.fit_transform(X_train)
-
-    X_test = scaler.transform(X_test)
-
-
-    # ==========================================
-    # SELECT ALGORITHM
-    # ==========================================
-
-    if method == "linear":
-
-        model = LinearRegression()
-
-        model_name = (
-            "Linear Regression "
-            "(Without Regularisation)"
-        )
-
-
-    elif method == "ridge":
+    if regularization == "ridge":
 
         model = Ridge(
             alpha=1.0
         )
 
-        model_name = (
-            "Ridge Regression "
-            "(L2 Regularisation)"
-        )
+        model_name = "Ridge Regression"
+
+        regularization_name = "L2 Regularization"
 
 
-    elif method == "lasso":
+    elif regularization == "lasso":
 
         model = Lasso(
-            alpha=1.0,
+            alpha=0.01,
             max_iter=10000
         )
 
-        model_name = (
-            "Lasso Regression "
-            "(L1 Regularisation)"
-        )
+        model_name = "Lasso Regression"
+
+        regularization_name = "L1 Regularization"
 
 
     else:
 
-        return {
-            "error": "Invalid regression method selected"
-        }
+        model = LinearRegression()
+
+        model_name = "Linear Regression"
+
+        regularization_name = "None"
 
 
-    # ==========================================
+    # ==========================================================
     # TRAIN MODEL
-    # ==========================================
+    # ==========================================================
 
     model.fit(
+
         X_train,
+
         y_train
+
     )
 
 
-    # ==========================================
+    # ==========================================================
     # PREDICTION
-    # ==========================================
+    # ==========================================================
 
     y_pred = model.predict(
+
         X_test
+
     )
 
 
-    # ==========================================
+    # ==========================================================
     # EVALUATION
-    # ==========================================
+    # ==========================================================
+
+    mae = mean_absolute_error(
+
+        y_test,
+
+        y_pred
+
+    )
+
 
     mse = mean_squared_error(
+
         y_test,
+
         y_pred
+
     )
 
-    rmse = sqrt(mse)
+
+    rmse = mse ** 0.5
+
 
     r2 = r2_score(
+
         y_test,
+
         y_pred
+
     )
 
 
-    # ==========================================
+    # ==========================================================
     # RETURN RESULTS
-    # ==========================================
+    # ==========================================================
 
     return {
 
-        "model": model_name,
+        "model_name":
+            model_name,
 
-        "target": "MonthlyIncome",
+        "regularization":
+            regularization_name,
 
-        "mse": round(mse, 2),
+        "target_column":
+            "MonthlyIncome",
 
-        "rmse": round(rmse, 2),
+        "total_rows":
+            len(df),
 
-        "r2": round(r2, 4)
+        "total_features":
+            len(features),
 
+        "training_rows":
+            len(X_train),
+
+        "testing_rows":
+            len(X_test),
+
+        "mae":
+            round(
+                mae,
+                4
+            ),
+
+        "mse":
+            round(
+                mse,
+                4
+            ),
+
+        "rmse":
+            round(
+                rmse,
+                4
+            ),
+
+        "r2":
+            round(
+                r2,
+                4
+            )
     }
+
+
+# ==========================================================
+# RUN LINEAR REGRESSION
+# ==========================================================
+
+def run_linear_regression(
+
+    regularization="none"
+
+):
+
+    return train_model(
+
+        regularization
+
+    )

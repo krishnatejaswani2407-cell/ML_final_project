@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 
 from load_data import get_dataset_info
 
@@ -7,11 +7,19 @@ from eda import (
     get_eda_summary
 )
 
-from linear_regression import run_linear_regression
+from preprocess import run_preprocessing
 
-from logistic_regression import run_logistic_regression
+from linear_regression import (
+    run_linear_regression
+)
 
-from tree_based import run_tree_algorithm
+from logistic_regression import (
+    run_logistic_regression
+)
+
+from tree_based import (
+    run_tree_algorithm
+)
 
 
 app = Flask(__name__)
@@ -24,11 +32,21 @@ app = Flask(__name__)
 @app.route("/")
 def home():
 
-    data = get_dataset_info()
+    error = None
+    data = None
+
+    try:
+
+        data = get_dataset_info()
+
+    except Exception as e:
+
+        error = f"Error: {e}"
 
     return render_template(
         "index.html",
-        data=data
+        data=data,
+        error=error
     )
 
 
@@ -39,13 +57,23 @@ def home():
 @app.route("/eda")
 def eda():
 
-    generate_all_charts()
+    error = None
+    summary = None
 
-    summary = get_eda_summary()
+    try:
+
+        generate_all_charts()
+
+        summary = get_eda_summary()
+
+    except Exception as e:
+
+        error = f"Error: {e}"
 
     return render_template(
         "eda.html",
-        summary=summary
+        summary=summary,
+        error=error
     )
 
 
@@ -56,63 +84,21 @@ def eda():
 @app.route("/preprocessing")
 def preprocessing():
 
-    summary = {
-        "rows": 1470,
-        "columns": 35,
-        "missing": 0,
-        "duplicates": 0,
+    error = None
+    results = None
 
-        "train_rows": 1029,
-        "test_rows": 441,
+    try:
 
-        "train_percentage": 70,
-        "test_percentage": 30
-    }
+        results = run_preprocessing()
 
+    except Exception as e:
 
-    outlier = {
-
-        "Q1": 3211,
-        "Q3": 8834,
-        "IQR": 5623,
-
-        "lower_fence": -5223.5,
-        "upper_fence": 17268.5,
-
-        "outlier_count": 114,
-
-        "original_min": 1009,
-        "original_max": 19999,
-
-        "clipped_min": 1009,
-        "clipped_max": 17268.5
-    }
-
+        error = f"Error: {e}"
 
     return render_template(
-
         "preprocessing.html",
-
-        summary=summary,
-
-        outlier=outlier,
-
-        feature_preview=(
-            "AgeGroup, ExperienceGroup, TenureGroup "
-            "and OverallSatisfaction are created "
-            "during preprocessing."
-        ),
-
-        standard_train=(
-            "StandardScaler is applied to the training "
-            "features before Linear and Logistic Regression."
-        ),
-
-        standard_test=(
-            "The same fitted StandardScaler is applied "
-            "to the testing features."
-        )
-
+        results=results,
+        error=error
     )
 
 
@@ -124,40 +110,104 @@ def preprocessing():
 def linear_regression_page():
 
     return render_template(
-        "linear_regression.html"
+        "linear_regression.html",
+        results=None,
+        selected_model=None,
+        error=None
     )
 
 
 # =====================================================
-# RUN LINEAR REGRESSION
+# LINEAR REGRESSION
+# WITHOUT REGULARIZATION
 # =====================================================
 
-@app.route("/run-linear-regression")
-def run_linear_regression_model():
+@app.route(
+    "/linear-regression/without-regularization"
+)
+def linear_regression_without():
+
+    error = None
+    results = None
 
     try:
 
-        method = request.args.get(
-            "method",
-            "without"
+        results = run_linear_regression(
+            "none"
         )
-
-        result = run_linear_regression(
-            method
-        )
-
-        return jsonify(result)
 
     except Exception as e:
 
-        print(
-            "Linear Regression Error:",
-            str(e)
+        error = f"Error: {e}"
+
+    return render_template(
+        "linear_regression.html",
+        results=results,
+        selected_model="none",
+        error=error
+    )
+
+
+# =====================================================
+# LINEAR REGRESSION
+# RIDGE REGULARIZATION
+# =====================================================
+
+@app.route(
+    "/linear-regression/with-regularization"
+)
+def linear_regression_with():
+
+    error = None
+    results = None
+
+    try:
+
+        results = run_linear_regression(
+            "ridge"
         )
 
-        return jsonify({
-            "error": str(e)
-        }), 500
+    except Exception as e:
+
+        error = f"Error: {e}"
+
+    return render_template(
+        "linear_regression.html",
+        results=results,
+        selected_model="ridge",
+        error=error
+    )
+
+
+# =====================================================
+# LINEAR REGRESSION
+# LASSO REGULARIZATION
+# =====================================================
+
+@app.route(
+    "/linear-regression/lasso"
+)
+def linear_regression_lasso():
+
+    error = None
+    results = None
+
+    try:
+
+        results = run_linear_regression(
+            "lasso"
+        )
+
+    except Exception as e:
+
+        error = f"Error: {e}"
+
+    return render_template(
+        "linear_regression.html",
+        results=results,
+        selected_model="lasso",
+        error=error
+    )
 
 
 # =====================================================
@@ -168,84 +218,328 @@ def run_linear_regression_model():
 def logistic_regression_page():
 
     return render_template(
-        "logistic_regression.html"
+        "logistic_regression.html",
+        results=None,
+        selected_model=None,
+        error=None
     )
 
 
 # =====================================================
-# RUN LOGISTIC REGRESSION
+# LOGISTIC REGRESSION
+# WITHOUT REGULARIZATION
 # =====================================================
 
-@app.route("/run-logistic-regression")
-def run_logistic_regression_model():
+@app.route(
+    "/logistic-regression/without-regularization"
+)
+def logistic_regression_without():
+
+    error = None
+    results = None
 
     try:
 
-        method = request.args.get(
-            "method",
-            "logistic"
+        results = run_logistic_regression(
+            "none"
         )
-
-        result = run_logistic_regression(
-            method
-        )
-
-        return jsonify(result)
 
     except Exception as e:
 
-        print(
-            "Logistic Regression Error:",
-            str(e)
-        )
+        error = f"Error: {e}"
 
-        return jsonify({
-            "error": str(e)
-        }), 500
+    return render_template(
+        "logistic_regression.html",
+        results=results,
+        selected_model="none",
+        error=error
+    )
 
 
 # =====================================================
-# TREE BASED ALGORITHMS PAGE
+# LOGISTIC REGRESSION
+# L2 REGULARIZATION
+# =====================================================
+
+@app.route(
+    "/logistic-regression/with-regularization"
+)
+def logistic_regression_with():
+
+    error = None
+    results = None
+
+    try:
+
+        results = run_logistic_regression(
+            "l2"
+        )
+
+    except Exception as e:
+
+        error = f"Error: {e}"
+
+    return render_template(
+        "logistic_regression.html",
+        results=results,
+        selected_model="l2",
+        error=error
+    )
+
+
+# =====================================================
+# LOGISTIC REGRESSION
+# L1 / LASSO REGULARIZATION
+# =====================================================
+
+@app.route(
+    "/logistic-regression/lasso"
+)
+def logistic_regression_lasso():
+
+    error = None
+    results = None
+
+    try:
+
+        results = run_logistic_regression(
+            "lasso"
+        )
+
+    except Exception as e:
+
+        error = f"Error: {e}"
+
+    return render_template(
+        "logistic_regression.html",
+        results=results,
+        selected_model="lasso",
+        error=error
+    )
+
+
+# =====================================================
+# TREE BASED MODELS PAGE
 # =====================================================
 
 @app.route("/tree-based")
 def tree_based_page():
 
     return render_template(
-        "tree_based.html"
+        "tree_based.html",
+        results=None,
+        selected_model=None,
+        error=None
     )
 
 
 # =====================================================
-# RUN TREE BASED ALGORITHM
+# ID3
 # =====================================================
 
-@app.route("/run-tree-algorithm")
-def run_tree_algorithm_model():
+@app.route(
+    "/tree-based-models/id3"
+)
+def id3_model():
 
     try:
 
-        algorithm = request.args.get(
-            "algorithm",
-            "decision_tree"
+        results = run_tree_algorithm(
+            "id3"
         )
 
-        result = run_tree_algorithm(
-            algorithm
+        return render_template(
+            "tree_based.html",
+            results=results,
+            selected_model="id3",
+            error=None
         )
-
-        return jsonify(result)
 
     except Exception as e:
 
-        print(
-            "Tree Based Algorithm Error:",
-            str(e)
+        return render_template(
+            "tree_based.html",
+            results=None,
+            selected_model="id3",
+            error=str(e)
         )
 
-        return jsonify({
-            "error": str(e)
-        }), 500
+
+# =====================================================
+# RANDOM FOREST
+# =====================================================
+
+@app.route(
+    "/tree-based-models/random-forest"
+)
+def random_forest_model():
+
+    try:
+
+        results = run_tree_algorithm(
+            "random_forest"
+        )
+
+        return render_template(
+            "tree_based.html",
+            results=results,
+            selected_model="random_forest",
+            error=None
+        )
+
+    except Exception as e:
+
+        return render_template(
+            "tree_based.html",
+            results=None,
+            selected_model="random_forest",
+            error=str(e)
+        )
+
+
+# =====================================================
+# ADABOOST
+# =====================================================
+
+@app.route(
+    "/tree-based-models/adaboost"
+)
+def adaboost_model():
+
+    try:
+
+        results = run_tree_algorithm(
+            "adaboost"
+        )
+
+        return render_template(
+            "tree_based.html",
+            results=results,
+            selected_model="adaboost",
+            error=None
+        )
+
+    except Exception as e:
+
+        return render_template(
+            "tree_based.html",
+            results=None,
+            selected_model="adaboost",
+            error=str(e)
+        )
+
+
+# =====================================================
+# GRADIENT BOOSTING
+# =====================================================
+
+@app.route(
+    "/tree-based-models/gradient-boosting"
+)
+def gradient_boosting_model():
+
+    try:
+
+        results = run_tree_algorithm(
+            "gradient_boosting"
+        )
+
+        return render_template(
+            "tree_based.html",
+            results=results,
+            selected_model="gradient_boosting",
+            error=None
+        )
+
+    except Exception as e:
+
+        return render_template(
+            "tree_based.html",
+            results=None,
+            selected_model="gradient_boosting",
+            error=str(e)
+        )
+
+
+# =====================================================
+# XGBOOST
+# =====================================================
+
+@app.route(
+    "/tree-based-models/xgboost"
+)
+def xgboost_model():
+
+    try:
+
+        results = run_tree_algorithm(
+            "xgboost"
+        )
+
+        return render_template(
+            "tree_based.html",
+            results=results,
+            selected_model="xgboost",
+            error=None
+        )
+
+    except Exception as e:
+
+        return render_template(
+            "tree_based.html",
+            results=None,
+            selected_model="xgboost",
+            error=str(e)
+        )
+
+
+# =====================================================
+# LIGHTGBM
+# =====================================================
+
+@app.route(
+    "/tree-based-models/lightgbm"
+)
+def lightgbm_model():
+
+    try:
+
+        results = run_tree_algorithm(
+            "lightgbm"
+        )
+
+        return render_template(
+            "tree_based.html",
+            results=results,
+            selected_model="lightgbm",
+            error=None
+        )
+
+    except Exception as e:
+
+        return render_template(
+            "tree_based.html",
+            results=None,
+            selected_model="lightgbm",
+            error=str(e)
+        )
+
+
+# =====================================================
+# TREE BASED MODELS MAIN PAGE
+# =====================================================
+
+@app.route(
+    "/tree-based-models"
+)
+def tree_based_models_page():
+
+    return render_template(
+        "tree_based.html",
+        results=None,
+        selected_model=None,
+        error=None
+    )
 
 
 # =====================================================
@@ -256,5 +550,5 @@ if __name__ == "__main__":
 
     app.run(
         debug=True,
-        port=5001
+        port=5000
     )

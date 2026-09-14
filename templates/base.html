@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}SkillMatch{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="topbar">
+    <h1>SkillMatch - Employee Attrition Analysis</h1>
+</header>
+
+
+<div class="layout">
+
+    <!-- SAME SIDEBAR FOR ALL PAGES -->
+    <nav class="sidebar">
+
+        <ul>
+
+            <!-- DATA LOADING -->
+            <li>
+                <a href="{{ url_for('home') }}"
+                   class="menu-item {% if active == 'data-loading' %}active{% endif %}">
+                    Data Loading
+                </a>
+            </li>
+
+
+            <!-- EDA -->
+            <li>
+                <a href="{{ url_for('eda') }}"
+                   class="menu-item {% if active == 'eda' %}active{% endif %}">
+                    EDA
+                </a>
+            </li>
+
+
+            <!-- PREPROCESSING -->
+            <li>
+                <a href="{{ url_for('preprocessing') }}"
+                   class="menu-item {% if active == 'preprocessing' %}active{% endif %}">
+                    Preprocessing
+                </a>
+            </li>
+
+
+            <!-- LINEAR REGRESSION -->
+            <li>
+                <a href="{{ url_for('linear_regression_page') }}"
+                   class="menu-item {% if active == 'linear-regression' %}active{% endif %}">
+                    Linear Regression
+                </a>
+            </li>
+
+
+            <!-- LOGISTIC REGRESSION -->
+            <li>
+                <a href="{{ url_for('logistic_regression_page') }}"
+                   class="menu-item {% if active == 'logistic-regression' %}active{% endif %}">
+                    Logistic Regression
+                </a>
+            </li>
+
+
+            <!-- TREE BASED MODELS -->
+            <li>
+                <a href="{{ url_for('tree_based_page') }}"
+                   class="menu-item {% if active == 'tree-based-models' %}active{% endif %}">
+                    Tree Based Models
+                </a>
+            </li>
+
+        </ul>
+
+    </nav>
+
+
+    <!-- ONLY THIS PART CHANGES -->
+    <main class="content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</div>
+
+</body>
+</html>
